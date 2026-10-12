@@ -1,0 +1,13 @@
+{
+  "name": "aisherpa",
+  "description": "AIOS by AI Sherpa: the routines, thinking tools and buttons of your AI system. Updated for every client at once.",
+  "owner": { "name": "AI Sherpa", "email": "santiago@aisherpa.me" },
+  "plugins": [
+    { "name": "aios", "source": "./plugins/aios", "description": "Routines, thinking tools and folder guards (English)" },
+    { "name": "aios-es", "source": "./plugins/aios-es", "description": "Rutinas, herramientas para pensar y guardias de la carpeta (español)" },
+    { "name": "aios-quickbar", "source": "./plugins/aios-quickbar", "description": "Buttons above the prompt for your routines, plus an effort row" },
+    { "name": "aios-quickbar-es", "source": "./plugins/aios-quickbar-es", "description": "Botones sobre el cuadro de texto para tus rutinas, y una fila de esfuerzo" },
+    { "name": "aios-side-chat", "source": "./plugins/aios-side-chat", "description": "Ask about the main chat in a side pane without adding to it" },
+    { "name": "aios-side-chat-es", "source": "./plugins/aios-side-chat-es", "description": "Pregunta sobre el chat principal en un panel al lado, sin agregarle nada" }
+  ]
+}

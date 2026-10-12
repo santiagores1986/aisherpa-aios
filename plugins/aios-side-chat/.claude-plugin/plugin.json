@@ -1,0 +1,9 @@
+{
+  "name": "aios-side-chat",
+  "version": "1.0.0",
+  "description": "A side chat in its own pane: ask about the main conversation without adding to it",
+  "author": {
+    "name": "AI Sherpa"
+  },
+  "types": "./types/index.d.ts"
+}
