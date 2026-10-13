@@ -1,0 +1,8 @@
+{
+  "name": "aios-secret-filter",
+  "version": "1.0.0",
+  "description": "Hides passwords, API keys, tokens and private keys in everything Claude reads (files, command output) so they never reach the conversation",
+  "author": {
+    "name": "AI Sherpa"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "aios-chat-mode",
+  "version": "1.0.0",
+  "description": "Chat mode: every step Claude takes is one short plain line; click it (fullscreen terminal) or type /activity for the details in a side pane. Cada paso de Claude es una línea corta y clara.",
+  "author": {
+    "name": "AI Sherpa"
+  },
+  "types": "./types/index.d.ts"
+}

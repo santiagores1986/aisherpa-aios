@@ -1,6 +1,8 @@
 {
   "name": "aios",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Your AI system's routines (start, close, new project, remember, make a skill, it's broken), thinking tools (research, think, teach, bro, wait what) and the guards that keep your folder tidy",
-  "author": { "name": "AI Sherpa" }
+  "author": {
+    "name": "AI Sherpa"
+  }
 }

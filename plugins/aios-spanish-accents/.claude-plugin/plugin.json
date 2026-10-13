@@ -1,0 +1,8 @@
+{
+  "name": "aios-spanish-accents",
+  "version": "1.0.0",
+  "description": "Refuses a Spanish text written without its accents (á, é, í, ó, ú, ñ) before it lands in a file, and tells Claude which words to fix",
+  "author": {
+    "name": "AI Sherpa"
+  }
+}

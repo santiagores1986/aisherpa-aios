@@ -1,0 +1,9 @@
+{
+  "name": "aios-md-view",
+  "version": "1.0.0",
+  "description": "Read Markdown documents in a side pane: real tables, coloured headings, images as links; a strip of this chat's documents, /view <file>. Lee documentos Markdown en un panel lateral.",
+  "author": {
+    "name": "AI Sherpa"
+  },
+  "types": "./types/index.d.ts"
+}

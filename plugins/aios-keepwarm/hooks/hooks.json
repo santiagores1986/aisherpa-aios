@@ -1,0 +1,6 @@
+{
+  "description": "aios-keepwarm (Mod): session.start, classic.SessionStart, command.run{command=keepwarm|keepwarm-info}, prompt.submit, turn.step, turn.complete, session.compact, ui.render{AbovePrompt}.",
+  "modules": [
+    "./register.ts"
+  ]
+}
