@@ -82,6 +82,13 @@ Explica en cuatro frases, sin tecnicismos:
   `contexto/voz.md`, que ella aprobará antes de que se use.
 - Pregunta: «¿Te parece bien que lo hagamos en la próxima sesión?». Anota la respuesta en
   `prioridades.md`, en Pendientes.
+- Si quiere conectar una cuenta ya mismo (correo, calendario, Drive), las conexiones de su cuenta
+  de Claude se agregan en claude.ai, en Customize → Connectors (si su Claude está en español,
+  los mismos menús en español): ábrele esa página con `open "https://claude.ai/new#customize/connectors"` y que la
+  agregue ahí con su cuenta. Dile claro que una conexión nueva solo aparece en una sesión nueva.
+  Antes de que salga, anota en `contexto/prioridades.md`, en Pendientes, «Retomar
+  /aios-es:empezar en la parte 6»; luego que escriba `/exit` y otra vez `aios`. Al volver,
+  comprueba que la conexión aparece y sigue con la parte 6.
 - Invítala: si tiene artículos, textos o correos que representen bien cómo escribe, puede
   pegarlos aquí ahora. Lo que pegue, guárdalo en `contexto/muestras/` con un nombre descriptivo
   (crea la carpeta si no existe), y dile dónde quedó.
