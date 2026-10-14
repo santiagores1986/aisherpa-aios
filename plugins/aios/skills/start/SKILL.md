@@ -79,6 +79,12 @@ Explain in four sentences, without technical words:
   emails or texts they wrote, only read them, and save what stands out in `context/voice.md`,
   which they approve before it is used.
 - Ask: "Is it OK to do that next session?" Write the answer in `priorities.md`, under Pending.
+- If they want to connect an account right now (email, calendar, Drive), their Claude account's
+  connections are added on claude.ai, under Customize → Connectors: open that page for them with
+  `open "https://claude.ai/new#customize/connectors"` and let them add it there with their account.
+  Tell them plainly that a new connection only shows up in a new session. Before they leave, write
+  "Resume /aios:start at part 6" in `context/priorities.md`, under Pending; then they type `/exit`
+  and `aios` again. When they're back, check the connection shows up and go on with part 6.
 - Invite them: if they have articles, texts or emails that show how they write well, they can
   paste them here now. Save what they paste in `context/samples/` with a descriptive name
   (create the folder if it doesn't exist), and tell them where it went.
