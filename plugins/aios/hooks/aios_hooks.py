@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""AIOS hooks (AI Sherpa). One file, two jobs, chosen by the first argument:
+"""AIOS hooks (AI Sherpa). One file, three jobs, chosen by the first argument:
   state    SessionStart: hand the AI where everything stands before its first word
   log      Stop: if a project changed after its log, send the AI back once to write the entry
+  time     UserPromptSubmit: the current date and time, so long sessions don't lose the day
 Second argument: language, en or es. The hooks act only inside an AIOS folder
 (one with a .aios/ folder at its root); anywhere else they stay silent.
 Deterministic: they read files and print. They decide nothing else."""
@@ -91,10 +92,20 @@ def log(root, t, inp):
         return 2
     return 0
 
+DAYS = {'en': 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday', 'es': 'lunes martes miércoles jueves viernes sábado domingo'}
+
+def clock(t, lang):
+    now = datetime.datetime.now().astimezone()
+    day = DAYS[lang].split()[now.weekday()]
+    label = 'Hora actual' if lang == 'es' else 'Current time'
+    print(f"{label}: {day} {now.strftime('%Y-%m-%d %H:%M')} ({now.tzname()})")
+    return 0
+
 def main():
     job = sys.argv[1] if len(sys.argv) > 1 else ''
     t = L.get(sys.argv[2] if len(sys.argv) > 2 else 'en', L['en'])
     inp = read_input()
+    if job == 'time': return clock(t, sys.argv[2] if len(sys.argv) > 2 else 'en')
     root = aios_root(inp)
     if root is None: return 0
     try:

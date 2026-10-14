@@ -14,9 +14,13 @@ lo que le sorprendió, lo que se robaría y lo que significa para ti. No un resu
 - **Artículo o página web:** léelo de la web.
 - **YouTube o un pódcast con página:** consigue la transcripción. Para YouTube, corre
   `yt-dlp --skip-download --write-auto-subs --sub-langs "es.*,en.*" --sub-format vtt -o "/tmp/aios-%(id)s" <url>`
-  y lee el .vtt que escribe (ignora las líneas de tiempos). Si no hay transcripción, dilo y pide que
-  la pegue, o las notas del episodio.
-- **Un archivo o texto pegado:** úsalo tal cual.
+  y lee el .vtt que escribe (ignora las líneas de tiempos). Si no hay transcripción, descarga el
+  audio (`yt-dlp -x --audio-format mp3 -o "/tmp/aios-%(id)s.%(ext)s" <url>`) y transcríbelo como abajo.
+- **Un archivo de audio o video** (una nota de voz, una grabación de Zoom, un episodio de pódcast):
+  transcríbelo en el Mac. `ffmpeg -y -i <archivo> -ar 16000 -ac 1 /tmp/aios-audio.wav`, luego
+  `whisper-cli -m ~/.cache/whisper-models/ggml-small.bin -l auto -otxt -of /tmp/aios-audio -f /tmp/aios-audio.wav`,
+  y lee `/tmp/aios-audio.txt`. Una grabación larga se demora: dilo antes de empezar.
+- **Un archivo de texto o texto pegado:** úsalo tal cual.
 
 Si el contenido está detrás de un inicio de sesión o un muro de pago, dilo en una línea y pide el
 texto.

@@ -9,12 +9,12 @@
     {
       "name": "aios",
       "source": "./plugins/aios",
-      "description": "Routines, thinking tools and folder guards (English)"
+      "description": "Routines, thinking tools, session state and project logs (English)"
     },
     {
       "name": "aios-es",
       "source": "./plugins/aios-es",
-      "description": "Rutinas, herramientas para pensar y guardias de la carpeta (español)"
+      "description": "Rutinas, herramientas para pensar, estado de la sesión y bitácoras (español)"
     },
     {
       "name": "aios-quickbar",

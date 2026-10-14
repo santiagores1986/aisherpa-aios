@@ -1,6 +1,7 @@
 {
   "hooks": {
     "SessionStart": [{"hooks": [{"type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" state es"}]}],
-    "Stop": [{"hooks": [{"type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" log es"}]}]
+    "Stop": [{"hooks": [{"type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" log es"}]}],
+    "UserPromptSubmit": [{"hooks": [{"type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" time es"}]}]
   }
 }

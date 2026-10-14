@@ -15,9 +15,13 @@ report.
 - **Article or web page:** read it from the web.
 - **YouTube or a podcast with a page:** get the transcript. For YouTube, run
   `yt-dlp --skip-download --write-auto-subs --sub-langs "en.*,es.*" --sub-format vtt -o "/tmp/aios-%(id)s" <url>`
-  and read the .vtt it writes (ignore the timing lines). If there is no transcript, say so and
-  ask the person to paste one, or to share the episode's show notes.
-- **A file or pasted text:** use it as it is.
+  and read the .vtt it writes (ignore the timing lines). If there is no transcript, download the
+  audio (`yt-dlp -x --audio-format mp3 -o "/tmp/aios-%(id)s.%(ext)s" <url>`) and transcribe it as below.
+- **An audio or video file** (a voice memo, a Zoom recording, a podcast episode): transcribe it
+  on the Mac. `ffmpeg -y -i <file> -ar 16000 -ac 1 /tmp/aios-audio.wav`, then
+  `whisper-cli -m ~/.cache/whisper-models/ggml-small.bin -l auto -otxt -of /tmp/aios-audio -f /tmp/aios-audio.wav`,
+  and read `/tmp/aios-audio.txt`. A long recording takes a while: say so before you start.
+- **A text file or pasted text:** use it as it is.
 
 If the content is behind a login or a paywall, say so in one line and ask for the text.
 
