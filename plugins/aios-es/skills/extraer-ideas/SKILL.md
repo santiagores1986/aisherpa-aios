@@ -43,5 +43,7 @@ que», no «es».
 ## 3 · Guardarlo
 
 Guárdalo como `trabajo/conocimiento/notas/AAAA-MM-DD-<titulo>.md` (crea la carpeta si hace falta),
-o en `entradas/` del proyecto si se pidió para un proyecto. Muéstrale en el chat «En una frase» y
+o en `entradas/` del proyecto si se pidió para un proyecto. Si el contenido es material propio de un
+cliente (su grabación, su documento), siempre va en el proyecto de ese cliente, nunca en el
+conocimiento general. Muéstrale en el chat «En una frase» y
 «Para tu trabajo», y di en una línea dónde quedaron las notas completas.

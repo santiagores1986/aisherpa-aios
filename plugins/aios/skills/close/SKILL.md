@@ -22,7 +22,10 @@ narrate each step: do everything and deliver the summary in step 5.
    say so in one line and move on.
 4. **Memory.** Add one line to `memory/MEMORY.md` with the date and a ten-word summary of the
    session, pointing to a file `memory/session-YYYY-MM-DD.md` with five lines of detail, in the
-   format that folder already uses. If `MEMORY.md` doesn't exist, create it.
+   format that folder already uses. If `MEMORY.md` doesn't exist, create it. If today's session
+   file already exists (a second session the same day), add a new dated section at its end; never
+   replace what is there. When the session was about a client's material, the memory note only
+   names the project and points to its `log.md`; the client's details stay inside the project.
 5. **Summary.** End with three lines: what got done, what is still open, and what is worth having
    at hand next time.
 

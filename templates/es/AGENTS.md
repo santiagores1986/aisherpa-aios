@@ -128,7 +128,7 @@ le sirve, la cambia.
 
 ## Conectores
 
-Los servicios que este entorno puede usar están en `.mcp.json` y en los conectores de la cuenta de
+Los servicios que este entorno puede usar son los conectores de la cuenta de
 Claude de {{NOMBRE}}. Antes de usar uno por primera vez, di qué vas a leer y para qué. Nunca envíes
 un correo, mensaje o archivo fuera de esta carpeta sin que {{NOMBRE}} lo autorice en ese momento.
 

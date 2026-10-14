@@ -120,7 +120,7 @@ change it.
 
 ## Connectors
 
-The services this workspace can use are in `.mcp.json` and in the connectors of {{NAME}}'s Claude
+The services this workspace can use are the connectors of {{NAME}}'s Claude
 account. Before using one for the first time, say what you will read and why. Never send an email,
 message or file out of this folder unless {{NAME}} authorizes it at that moment.
 

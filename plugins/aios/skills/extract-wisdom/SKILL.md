@@ -42,5 +42,6 @@ argues", not "it is".
 ## 3 · Save it
 
 Save it as `work/knowledge/notes/YYYY-MM-DD-<title>.md` (create the folder if needed), or in the
-project's `inputs/` if it was asked for a project. Show the person the "In one sentence" and "For
+project's `inputs/` if it was asked for a project. If the content is a client's own material (their
+recording, their document), it always goes in that client's project, never in general knowledge. Show the person the "In one sentence" and "For
 your work" parts in the chat, and say in one line where the full notes are.

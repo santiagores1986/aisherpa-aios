@@ -118,21 +118,47 @@ def deny(reason):
 DELETE = [r'\brm\s+-[a-zA-Z]*[rR]', r'\brm\s+--recursive', r'\brmdir\b', r'\bfind\b[^|;]*-delete', r'\bgit\s+clean\s+-[a-zA-Z]*f',
           r'\brm\s+[^|;]*\*', r'\bdiskutil\s+erase', r'\bsrm\b']
 
+# rm with two or more targets (rm a b), counted per command segment
+MULTI_RM = re.compile(r'(?:^|[;&|(]\s*)rm\s+(?:-[a-zA-Z]+\s+)*(?:"[^"]*"|\'[^\']*\'|[^\s;&|>-][^\s;&|>]*)\s+(?:"[^"]*"|\'[^\']*\'|[^\s;&|>-][^\s;&|>]*)')
+# where a shell command may write outside the folder: scratch places and Claude's own folders
+SCRATCH = ('/tmp/', '/private/tmp/', '/dev/', '/var/folders/', '/private/var/folders/')
+WRITE_TARGET = re.compile(r'(?:\d?>>?\s*|\btee\s+(?:-a\s+)?|\b(?:cp|mv|install)\s+(?:-[a-zA-Z]+\s+)*(?:"[^"]*"|\'[^\']*\'|\S+)\s+)("[^"]+"|\'[^\']+\'|[^\s;&|)]+)')
+
+def outside(root, target):
+    target = target.strip('"\'')
+    if not target or target.startswith('&') or target.startswith('$('): return False
+    full = pathlib.Path(os.path.expanduser(target.replace('$HOME', str(pathlib.Path.home()))))
+    if not full.is_absolute(): return False          # relative paths stay inside the folder the session runs in
+    s = str(full)
+    if s.startswith(SCRATCH) or s in ('/dev/null',): return False
+    try:
+        full.resolve().relative_to(root); return False
+    except ValueError: pass
+    try:
+        full.resolve().relative_to(pathlib.Path.home()/'.claude'); return False
+    except ValueError: return True
+
 def delete(root, t, inp):
     cmd = (inp.get('tool_input') or {}).get('command') or ''
     for p in DELETE:
         if re.search(p, cmd): return deny(t['delmsg'])
+    if MULTI_RM.search(cmd): return deny(t['delmsg'])
+    for m in WRITE_TARGET.finditer(cmd):
+        if outside(root, m.group(1)): return deny(t['outside'])
     return 0
 
 def place(root, t, inp):
-    fp = (inp.get('tool_input') or {}).get('file_path')
+    ti = inp.get('tool_input') or {}
+    fp = ti.get('file_path') or ti.get('notebook_path')
     if not fp: return 0
     full = pathlib.Path(fp if os.path.isabs(fp) else root/fp).resolve()
     try: rel = full.relative_to(root)
     except ValueError:
         # Claude's own memory and plans live outside the folder; let those through.
-        if str(full).startswith(str(pathlib.Path.home()/'.claude')): return 0
-        return deny(t['outside'])
+        try:
+            full.relative_to((pathlib.Path.home()/'.claude').resolve()); return 0
+        except ValueError:
+            return deny(t['outside'])
     parts = rel.parts
     if len(parts) == 1:
         return 0 if parts[0] in t['rootok'] else deny(t['root'])

@@ -22,7 +22,11 @@ de la persona. No narres cada paso: haz todo y entrega el resumen del paso 5.
    en una línea y sigue.
 4. **Memoria.** Añade a `memoria/MEMORY.md` una línea con la fecha y el resumen de la sesión en
    diez palabras, apuntando a un archivo `memoria/sesion-AAAA-MM-DD.md` con el detalle en cinco
-   líneas, en el formato que ya usa esa carpeta. Si `MEMORY.md` no existe, créalo.
+   líneas, en el formato que ya usa esa carpeta. Si `MEMORY.md` no existe, créalo. Si el archivo de
+   hoy ya existe (una segunda sesión el mismo día), agrega una sección nueva con la hora al final;
+   nunca reemplaces lo que hay. Si la sesión fue sobre material de un cliente, la nota de memoria
+   solo nombra el proyecto y apunta a su `bitacora.md`; los detalles del cliente se quedan dentro
+   del proyecto.
 5. **Resumen.** Termina con tres líneas: qué quedó hecho, qué quedó pendiente, y qué conviene
    tener a mano la próxima vez.
 
