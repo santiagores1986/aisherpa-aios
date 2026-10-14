@@ -26,6 +26,7 @@ pueden romperse juntas tras una actualización.
 | Mods dibujados | Pregunta si se ven los botones sobre donde se escribe (la barra rápida) | Todos los mods desaparecen a la vez con la validación en orden: los mods están apagados o cambiaron del lado de Anthropic |
 | Barra de estado | `echo '{}' \| python3 ~/.aios/statusline.py` | Salida con error, o `python3` no encontrado |
 | Configuración | Lee `.claude/settings.json` de la carpeta y `~/.claude/settings.json`; comprueba que sean JSON válido | Un archivo que no se puede leer, o una ruta de la barra de estado que no existe |
+| Archivos en todo el Mac | `ls ~/Desktop ~/Documents ~/Downloads >/dev/null` | «Operation not permitted»: Warp no tiene Acceso total al disco. Guía a la persona por menú de Apple → Configuración del Sistema → Privacidad y seguridad → Acceso total al disco → activar Warp (o `open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"`), y luego cerrar y abrir Warp otra vez |
 | Apps conectadas | `claude mcp list` | Un conector marcado como fallido o que pide iniciar sesión |
 | Internet y Anthropic | `curl -sIL https://status.anthropic.com` (la última línea de estado debe ser 200) | Sin respuesta: sin conexión, o Anthropic tiene una caída |
 

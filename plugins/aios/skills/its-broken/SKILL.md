@@ -23,6 +23,7 @@ Run each check, note what it returns, and move on. Don't stop at the first probl
 | Mods drawn | Ask whether the quickbar (buttons above the prompt) shows | Every mod gone at once, with validation passing: mods are switched off or changed on Anthropic's side |
 | Status line | `echo '{}' \| python3 ~/.aios/statusline.py` | Error output, or `python3` not found |
 | Settings | Read `.claude/settings.json` in the folder and `~/.claude/settings.json`; check they are valid JSON | A file that does not parse, or a status line path that does not exist |
+| Files anywhere | `ls ~/Desktop ~/Documents ~/Downloads >/dev/null` | "Operation not permitted": Warp lacks Full Disk Access. Walk them through Apple menu → System Settings → Privacy & Security → Full Disk Access → turn on Warp (or `open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"`), then quit and reopen Warp |
 | Connected apps | `claude mcp list` | A connector marked failed or needing login |
 | Internet and Anthropic | `curl -sIL https://status.anthropic.com` (last status line should be 200) | No answer: offline, or Anthropic is having an outage |
 
