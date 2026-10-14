@@ -16,6 +16,21 @@ const HISTORY_CHARS = 6000
 const messages = atom({ plugin: 'aios-side-chat-es', key: 'messages' } as const, [] as SideMessage[])
 const busy = atom({ plugin: 'aios-side-chat-es', key: 'busy' } as const, false)
 
+// The assistant's own name, from the AIOS folder (context/assistant.md "Name: X" or contexto/asistente.md
+// "Nombre: X"); 'claude' until the client has chosen one.
+async function assistantName($: EngineInterface): Promise<string> {
+  const parts = (await $.session.cwd()).split('/')
+  const home = parts[1] === 'Users' && parts[2] ? '/Users/' + parts[2] : ''
+  for (const f of ['/AIOS/context/assistant.md', '/AIOS/contexto/asistente.md']) {
+    try {
+      const m = (await $.fs.read(home + f)).match(/^\*{0,2}(?:Name|Nombre)\*{0,2}:\*{0,2}\s*(.+)$/m)
+      const n = m?.[1].replace(/\*/g, '').trim()
+      if (n && !/not chosen|sin elegir|\{\{/i.test(n)) return n.toLowerCase()
+    } catch { /* not an AIOS folder */ }
+  }
+  return 'claude'
+}
+
 export const buildPrompt = (history: SideMessage[], question: string) => {
   const earlier = history
     .filter(m => m.who !== 'note')
@@ -89,6 +104,7 @@ export const register: Register = on => {
     const thinking = await read($, busy)
     const M = (t: string) => t
     const cols = (e.props as { bodyColumns?: number }).bodyColumns ?? 60
+    const who = await assistantName($)
     return (
       <Box flexDirection="column">
         <Box flexDirection="row" columnGap={2}>
@@ -109,7 +125,7 @@ export const register: Register = on => {
           if (m.who === 'note') return <Box key={'m' + i} marginTop={1}><Text dimColor italic>{M(m.text)}</Text></Box>
           return (
             <Box key={'m' + i} flexDirection="column" marginTop={1}>
-              <Text bold color="#5FB8A5">claude</Text>
+              <Text bold color="#5FB8A5">{who}</Text>
               <Markdown key={'md' + i} text={M(m.text).slice(0, 10000)} />
               <Box key={'acts' + i}>
                 <Button key={'send-' + i} plain dimColor label="enviar al chat principal ›" hover={{ dimColor: false, bold: true, color: '#ffd84d' }} onPress={() => void sendToMain($, i)} />
