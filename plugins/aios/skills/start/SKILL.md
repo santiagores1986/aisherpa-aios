@@ -25,12 +25,25 @@ Rules for the conversation:
 
 ## 0. Welcome
 
-Greet them in two lines. Say this takes about ten minutes, that they will see what is already
-written about them and correct it, and that they can answer by talking. Explain there are five
-parts: who they are, their work, their priorities, connected apps, and how the workspace works.
-Ask if they want to begin.
+This session usually opens by itself the first time they type `aios`, so they may not know what
+is happening. Greet them by first name in two lines: you are their new assistant, and this first
+conversation sets everything up. Say it takes about fifteen minutes, that they will see what is
+already written about them and correct it, and that they can answer by talking. Explain there
+are six parts: who I am, who you are, your work, your priorities, connected apps, and how this
+works. Ask if they want to begin.
 
-## 1. Who you are
+## 1. Who I am
+
+Read `context/assistant.md`. Tell them, in five or six plain sentences, how you will work with
+them (summarize its lines; don't read the list aloud). Then ask, one at a time:
+1. "Does this sound like the assistant you want? Anything you'd change or add?" Propose the exact
+   change to `assistant.md` and write it after their yes.
+2. "What would you like to call me?" If they have no idea, offer three short, friendly names and
+   let them choose or invent one. Write it on the `Name:` line of `assistant.md`. From then on use
+   that name when you speak of yourself, and tell them it will show on their opening screen the
+   next time they open AIOS.
+
+## 2. Who you are
 
 Read `context/about-me.md`. If it is a long profile, don't read it aloud. Show them the sections
 one by one, in the order of the file, each summarized in three or four sentences with the most
@@ -38,13 +51,13 @@ concrete things it says. After each section ask: "Is anything wrong, or anything
 the end, ask if anything important about them is missing. Apply the confirmed corrections to
 `about-me.md`.
 
-## 2. Your work
+## 3. Your work
 
 Read `work/business.md`. Same method: go through its sections, summarize each block in two or
 three sentences, and ask for corrections. If part of it came from a public web page, ask if it is
 up to date. Apply what they confirm.
 
-## 3. Priorities
+## 4. Priorities
 
 Read `context/priorities.md`. Name each work front in one sentence, then ask, in this order and
 one at a time:
@@ -56,7 +69,7 @@ one at a time:
    work only."
 Apply what they confirm to `priorities.md`.
 
-## 4. Connected apps and your voice
+## 5. Connected apps and your voice
 
 Explain in four sentences, without technical words:
 - The workspace can connect to their accounts (email, calendar, files) if they want. Each
@@ -70,28 +83,33 @@ Explain in four sentences, without technical words:
   paste them here now. Save what they paste in `context/samples/` with a descriptive name
   (create the folder if it doesn't exist), and tell them where it went.
 
-## 5. How this works
+## 6. How this works
 
-Tell them in six sentences, no more:
-- Everything lives in this folder; nothing of theirs is stored out of sight.
+Tell them in seven sentences, no more:
+- Everything lives in one folder called AIOS. To open it, click the AIOS folder in the Dock, at
+  the bottom of the screen next to the Trash, or just ask you: "open my folder" (then run
+  `open .`). Nothing of theirs is stored out of sight.
 - `context/` is who they are; `work/` is their work; `personal/` is theirs if they want it.
 - Each job is a folder inside `work/projects/`; when it ends, they drag it to `archive/`.
 - When they correct you, you will propose a rule and they decide whether it is kept. The rules
   live at the end of `AGENTS.md` and they can read them any time.
 - You keep your own notes in `memory/`; they can open, edit or delete them.
-- To change something about who they are or their work, type `/aios:remember`, or just tell you
-  that something changed.
+- To change something about who they are, their work or how you work, they just tell you, or
+  type `/rem` and press Enter.
+- The buttons above the box where they type do the most common things in one click: Go ahead,
+  Side chat, Close, Remember and the rest. Typing the first letters after a slash, like `/clo`,
+  and Enter works for every command.
 
 ## Closing
 
 1. Add this line to `context/priorities.md`, under "Where we are":
-   "/aios:start completed on YYYY-MM-DD. First project chosen: X."
+   "/aios:start completed on YYYY-MM-DD. Assistant named: N. First project chosen: X."
 2. Leave a memory of this session so the next one starts knowing what happened. Write two files
    in `memory/`, in this exact format:
 
    `memory/MEMORY.md` (create it if it doesn't exist; if it does, add the line at the end):
    ```
-   - [Start session](start-session.md) - /aios:start completed on YYYY-MM-DD; first project: X; personal priorities: yes/no
+   - [Start session](start-session.md) - /aios:start completed on YYYY-MM-DD; assistant named N; first project: X; personal priorities: yes/no
    ```
 
    `memory/start-session.md`:
@@ -103,7 +121,8 @@ Tell them in six sentences, no more:
      type: project
    ---
 
-   /aios:start was completed on YYYY-MM-DD. They reviewed their profile and their work profile
+   /aios:start was completed on YYYY-MM-DD. They named the assistant N (changes to assistant.md: …).
+   They reviewed their profile and their work profile
    (changes: …). They chose X as the first project. Personal priorities: … .
    They accepted/declined having you read their writing for voice.md. Writing samples: … .
    ```
