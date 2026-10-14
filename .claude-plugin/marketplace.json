@@ -60,6 +60,11 @@
       "name": "aios-keepwarm",
       "source": "./plugins/aios-keepwarm",
       "description": "Keeps the chat cache warm during breaks. Based on cache-tax by Karan Bansal (MIT)."
+    },
+    {
+      "name": "aios-design",
+      "source": "./plugins/aios-design",
+      "description": "Design skills: web pages, posters and one-pagers, themes, generative art, and a site's design taste as a reusable style"
     }
   ]
 }
