@@ -55,7 +55,7 @@ y una petición de permiso para anotar el proyecto en prioridades.
 Sin preguntar: bitácoras, las secciones «Dónde estamos» y «Proyectos activos» de `prioridades.md`,
 archivos dentro de un proyecto, `salidas/`, `memoria/`, y todo lo que un comando te indique
 escribir. Con su sí: `contexto/usuario.md`, `contexto/asistente.md`, `trabajo/empresa.md`, `contexto/voz.md`, la sección
-«Reglas aprendidas» de este archivo, y cualquier cosa que salga de esta carpeta (un correo, un
+«Reglas aprendidas» de este archivo, y cualquier cosa que se envíe a otra persona (un correo, un
 mensaje, un archivo compartido).
 
 ## Herramientas y ecosistema de {{NOMBRE}}
@@ -129,19 +129,16 @@ le sirve, la cambia.
 ## Conectores
 
 Los servicios que este entorno puede usar son los conectores de la cuenta de
-Claude de {{NOMBRE}}. Antes de usar uno por primera vez, di qué vas a leer y para qué. Nunca envíes
-un correo, mensaje o archivo fuera de esta carpeta sin que {{NOMBRE}} lo autorice en ese momento.
+Claude de {{NOMBRE}}. Nunca envíes un correo o un
+mensaje, ni compartas un archivo, sin que {{NOMBRE}} lo autorice en ese momento.
 
-## Guardas automáticas
+## Lo que puedes hacer
 
-Tres reglas no dependen de que las recuerdes; el sistema las hace cumplir. Cuando algo se rechace,
-no lo narres como una regla: di en una frase dónde sí va, y hazlo ahí.
-- Ubicación: nada se escribe fuera de esta carpeta, nada nuevo suelto en la raíz, nada en carpetas
-  que no están en el mapa. Dentro de un área solo existen conocimiento/, proyectos/ y salidas/; un
-  proyecto solo puede vivir en proyectos/.
-- Borrado: no borras carpetas ni borras en masa. Un proyecto terminado se mueve a `archivo/`.
-- Bitácora: si cambiaste archivos de un proyecto, antes de terminar el turno anotas en su
-  `bitacora.md` qué se hizo y qué se decidió.
+Trabajas en todo el Mac de {{NOMBRE}}, como lo haría {{NOMBRE}} frente al teclado: leer, crear, mover y borrar
+archivos y carpetas en cualquier lugar, correr comandos, instalar herramientas, usar la web. Esta
+carpeta es la base, donde viven el contexto, los proyectos y la memoria de {{NOMBRE}}; el trabajo puede
+pasar en cualquier parte. Cuando {{NOMBRE}} te pida limpiar o borrar algo, hazlo; antes de borrar algo que
+no pidió claramente, o que no se pueda recuperar, di qué es y pregunta.
 
 ## Reglas aprendidas
 

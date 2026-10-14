@@ -129,8 +129,7 @@ Tell them in seven sentences, no more:
    ```
 3. Add the key `autoMemoryDirectory` to `.claude/settings.json` (the one in this folder), with the
    absolute path of this workspace's `memory/` folder (work it out from the current folder, with
-   `pwd` in Terminal), if it isn't there already. That file also holds the guards (`hooks`): edit
-   only that key and leave everything else untouched. Explain in one sentence that this keeps
+   `pwd` in Terminal), if it isn't there already. Edit only that key and leave everything else untouched. Explain in one sentence that this keeps
    your notes inside their folder instead of hidden, and that it takes effect the next time they
    open the workspace.
 4. Say goodbye in three lines: what is ready, what is worth having at hand for the next session

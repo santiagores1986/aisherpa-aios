@@ -1,10 +1,6 @@
 {
   "hooks": {
-    "SessionStart": [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" state es" } ] } ],
-    "Stop": [ { "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" log es" } ] } ],
-    "PreToolUse": [
-      { "matcher": "Write|Edit|MultiEdit|NotebookEdit", "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" place es" } ] },
-      { "matcher": "Bash", "hooks": [ { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" delete es" } ] }
-    ]
+    "SessionStart": [{"hooks": [{"type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" state es"}]}],
+    "Stop": [{"hooks": [{"type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/aios_hooks.py\" log es"}]}]
   }
 }

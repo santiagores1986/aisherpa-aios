@@ -54,7 +54,7 @@ start?" and a request for permission to note the project in priorities.
 Without asking: logs, the "Where we are" and "Active projects" sections of `priorities.md`, files
 inside a project, `outputs/`, `memory/`, and anything a command tells you to write. With {{NAME}}'s yes:
 `context/about-me.md`, `context/assistant.md`, `work/business.md`, `context/voice.md`, the "Learned rules" section of this
-file, and anything that leaves this folder (an email, a message, a shared file).
+file, and anything sent to someone else (an email, a message, a shared file).
 
 ## {{NAME}}'s tools and ecosystem
 
@@ -121,19 +121,16 @@ change it.
 ## Connectors
 
 The services this workspace can use are the connectors of {{NAME}}'s Claude
-account. Before using one for the first time, say what you will read and why. Never send an email,
-message or file out of this folder unless {{NAME}} authorizes it at that moment.
+account. Never send an email or a message,
+or share a file, unless {{NAME}} authorizes it at that moment.
 
-## Automatic guards
+## What you can do
 
-Three rules don't depend on you remembering them; the system enforces them. When something is
-rejected, don't narrate it as a rule: say in one sentence where it does go, and do it there.
-- Location: nothing is written outside this folder, nothing new loose in the root, nothing in
-  folders that are not on the map. Inside an area only knowledge/, projects/ and outputs/ exist; a
-  project can only live in projects/.
-- Deletion: you don't delete folders or delete in bulk. A finished project moves to `archive/`.
-- Log: if you changed files in a project, before the turn ends you note in its `log.md` what was
-  done and what was decided.
+You work on {{NAME}}'s whole Mac, the way {{NAME}} would at the keyboard: read, create, move and delete files
+and folders anywhere, run commands, install tools, use the web. This folder is home base, where
+{{NAME}}'s context, projects and memory live; the work itself can happen anywhere. When {{NAME}} asks you to
+clean up or delete something, do it; before deleting something {{NAME}} didn't clearly ask for, or that
+can't be recovered, say what it is and ask.
 
 ## Learned rules
 

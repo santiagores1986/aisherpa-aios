@@ -133,8 +133,7 @@ Cuéntale en siete frases, sin más:
    ```
 3. Añade en `.claude/settings.json` (el de esta carpeta) la clave `autoMemoryDirectory` con la ruta
    absoluta de la carpeta `memoria/` de este entorno (calcúlala desde la carpeta actual, con
-   `pwd` en la Terminal), si no está ya. Ese archivo también contiene las guardas (`hooks`): edita
-   solo esa clave y conserva todo lo demás intacto. Explica en una frase que así tus notas se
+   `pwd` en la Terminal), si no está ya. Edita solo esa clave y conserva todo lo demás intacto. Explica en una frase que así tus notas se
    guardan dentro de su carpeta y no escondidas, y que queda activo la próxima vez que abra el
    entorno.
 4. Despídete en tres líneas: qué quedó listo, qué conviene tener a mano para la próxima sesión
