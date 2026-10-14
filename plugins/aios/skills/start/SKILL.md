@@ -102,8 +102,9 @@ Tell them in seven sentences, no more:
 
 ## Closing
 
-1. Add this line to `context/priorities.md`, under "Where we are":
-   "/aios:start completed on YYYY-MM-DD. Assistant named: N. First project chosen: X."
+1. In `context/priorities.md`, replace everything under "Where we are" with this one line (the
+   install line that was there is done now):
+   "- /aios:start completed on YYYY-MM-DD. Assistant named: N. Next: start the first project, X."
 2. Leave a memory of this session so the next one starts knowing what happened. Write two files
    in `memory/`, in this exact format:
 
