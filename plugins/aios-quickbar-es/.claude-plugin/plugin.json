@@ -1,7 +1,7 @@
 {
   "name": "aios-quickbar-es",
-  "version": "1.0.0",
-  "description": "Botones sobre el cuadro de texto para tus rutinas (dale, otra vez, cerrar, nuevo proyecto, recordar, pensar, no funciona); un clic envía; agrega, renombra y borra los tuyos; una segunda fila elige el nivel de esfuerzo",
+  "version": "1.0.1",
+  "description": "Botones sobre el cuadro de texto para tus rutinas (dale, otra vez, chat al lado, bro, cerrar, nuevo proyecto, recordar, pensar, no funciona); un clic envía; agrega, renombra y borra los tuyos; una segunda fila elige el nivel de esfuerzo",
   "author": {
     "name": "AI Sherpa"
   },

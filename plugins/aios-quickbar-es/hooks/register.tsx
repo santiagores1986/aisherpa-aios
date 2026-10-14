@@ -16,6 +16,7 @@ const STORE_KEY = 'buttons'
 const DEFAULTS: QuickButton[] = [
   { id: 'go', label: '✓ Dale', text: 'dale, sigue' },
   { id: 'retry', label: '↻ Otra vez', text: 'inténtalo otra vez' },
+  { id: 'side', label: 'Chat al lado', text: '/side' },
   { id: 'bro', label: 'Bro', text: '/aios-es:bro' },
   { id: 'close', label: 'Cerrar', text: '/aios-es:cerrar' },
   { id: 'newproject', label: 'Nuevo proyecto', text: '/aios-es:nuevo-proyecto' },
