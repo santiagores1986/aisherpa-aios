@@ -27,11 +27,25 @@ Reglas de la conversación:
 
 ## 0. Bienvenida
 
-Saluda en dos líneas. Dile que esto toma unos diez minutos, que va a ver lo que ya está escrito
-sobre ella y corregirlo, y que puede responder hablando. Explica que hay cinco partes: quién es,
-su trabajo, sus prioridades, los conectores y cómo funciona el entorno. Pregunta si empieza.
+Esta sesión suele abrirse sola la primera vez que la persona escribe `aios`, así que puede que no
+sepa qué está pasando. Salúdala por su nombre en dos líneas: eres su nuevo asistente y esta primera
+conversación deja todo listo. Dile que toma unos quince minutos, que va a ver lo que ya está
+escrito sobre ella y corregirlo, y que puede responder hablando. Explica que hay seis partes: quién
+soy, quién eres, tu trabajo, tus prioridades, los conectores y cómo funciona esto. Pregunta si
+empieza.
 
-## 1. Quién eres
+## 1. Quién soy
+
+Lee `contexto/asistente.md`. Cuéntale, en cinco o seis frases simples, cómo vas a trabajar con ella
+(resume sus líneas; no leas la lista en voz alta). Luego pregunta, de a una:
+1. «¿Así es el asistente que quieres? ¿Algo que cambiarías o agregarías?». Propón el cambio exacto
+   en `asistente.md` y escríbelo después de su sí.
+2. «¿Cómo quieres que me llame?». Si no se le ocurre nada, ofrece tres nombres cortos y amables y
+   deja que escoja uno o invente otro. Escríbelo en la línea `Nombre:` de `asistente.md`. Desde ahí
+   usa ese nombre cuando hables de ti, y dile que va a aparecer en su pantalla de inicio la próxima
+   vez que abra AIOS.
+
+## 2. Quién eres
 
 Lee `contexto/usuario.md`. Si es un perfil largo, no lo leas en voz alta. Preséntale las
 secciones una por una, en el orden del archivo, cada una resumida en tres o cuatro frases con lo
@@ -39,13 +53,13 @@ más concreto que dice. Tras cada sección, pregunta: «¿Hay algo mal o algo qu
 Al final, pregunta si hay algo importante sobre ella que no aparezca. Aplica las correcciones
 confirmadas a `usuario.md`.
 
-## 2. Tu trabajo
+## 3. Tu trabajo
 
 Lee `trabajo/empresa.md`. Misma mecánica: recorre sus secciones, resume cada bloque en dos o tres
 frases y pide correcciones. Si parte del contenido viene de una página pública, pregunta si está
 al día. Aplica lo confirmado.
 
-## 3. Prioridades
+## 4. Prioridades
 
 Lee `contexto/prioridades.md`. Nómbrale los frentes de trabajo en una frase cada uno y pregunta,
 en este orden y de a una:
@@ -57,7 +71,7 @@ en este orden y de a una:
    con una línea: «Por ahora, solo trabajo».
 Aplica lo confirmado a `prioridades.md`.
 
-## 4. Conectores y tu voz
+## 5. Conectores y tu voz
 
 Explica en cuatro frases, sin tecnicismos:
 - Que el entorno puede conectarse a sus cuentas (correo, calendario, archivos) si ella lo quiere,
@@ -72,29 +86,35 @@ Explica en cuatro frases, sin tecnicismos:
   pegarlos aquí ahora. Lo que pegue, guárdalo en `contexto/muestras/` con un nombre descriptivo
   (crea la carpeta si no existe), y dile dónde quedó.
 
-## 5. Cómo funciona esto
+## 6. Cómo funciona esto
 
-Cuéntale en seis frases, sin más:
-- Todo vive en esta carpeta; nada suyo se guarda escondido.
+Cuéntale en siete frases, sin más:
+- Todo vive en una carpeta llamada AIOS. Para abrirla, un clic en la carpeta AIOS del Dock, abajo
+  en la pantalla junto a la Papelera, o simplemente pedírtelo: «abre mi carpeta» (entonces corre
+  `open .`). Nada suyo se guarda escondido.
 - `contexto/` es quién es; `trabajo/` es su trabajo; `personal/` es suyo si lo quiere.
 - Cada encargo es una carpeta dentro de `trabajo/proyectos/`; cuando termina, la arrastra a
   `archivo/`.
 - Cuando ella te corrija, tú propondrás una regla y ella decide si se guarda. Las reglas viven al
   final de `AGENTS.md` y puede leerlas cuando quiera.
 - Tú guardas notas por tu cuenta en `memoria/`; ella puede abrirlas, editarlas o borrarlas.
-- Para cambiar algo de quién es o de su trabajo, escribe `/aios-es:actualizar-contexto`, o
-  simplemente dile que algo cambió.
+- Para cambiar algo de quién es, de su trabajo o de cómo trabajas tú, basta con decírtelo, o
+  escribir `/actu` y presionar Enter.
+- Los botones sobre el cuadro donde escribe hacen lo más común con un clic: Dale, Chat al lado,
+  Cerrar, Recordar y los demás. Escribir la barra y las primeras letras, como `/cerr`, y Enter,
+  sirve para cualquier comando.
 
 ## Cierre
 
-1. Añade en `contexto/prioridades.md`, en «Dónde estamos», la línea
-   «/aios-es:empezar completado el AAAA-MM-DD. Primer proyecto elegido: X.»
+1. En `contexto/prioridades.md`, reemplaza todo lo que hay bajo «Dónde estamos» por esta única línea
+   (la línea de instalación que estaba ahí ya se cumplió):
+   «- /aios-es:empezar completado el AAAA-MM-DD. Asistente: N. Siguiente: arrancar el primer proyecto, X.»
 2. Deja memoria de esta sesión para que la próxima arranque sabiendo lo que pasó. Escribe dos
    archivos en `memoria/`, con este formato exacto:
 
    `memoria/MEMORY.md` (créalo si no existe; si existe, añade la línea al final):
    ```
-   - [Sesión de inicio](sesion-de-inicio.md) - /aios-es:empezar completado el AAAA-MM-DD; primer proyecto: X; prioridades personales: sí/no
+   - [Sesión de inicio](sesion-de-inicio.md) - /aios-es:empezar completado el AAAA-MM-DD; asistente: N; primer proyecto: X; prioridades personales: sí/no
    ```
 
    `memoria/sesion-de-inicio.md`:
@@ -106,7 +126,8 @@ Cuéntale en seis frases, sin más:
      type: project
    ---
 
-   /aios-es:empezar se completó el AAAA-MM-DD. Revisó su perfil y el de su trabajo (cambios: …).
+   /aios-es:empezar se completó el AAAA-MM-DD. Le puso al asistente el nombre N (cambios en asistente.md: …).
+   Revisó su perfil y el de su trabajo (cambios: …).
    Eligió X como primer proyecto. Prioridades personales: … .
    Aceptó/declinó que leas sus textos para voz.md. Muestras de escritura: … .
    ```
