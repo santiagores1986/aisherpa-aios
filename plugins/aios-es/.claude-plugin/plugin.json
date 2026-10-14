@@ -1,6 +1,6 @@
 {
   "name": "aios-es",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Las rutinas de tu sistema de IA (empezar, cerrar, nuevo proyecto, actualizar contexto, extraer proceso, no funciona), las herramientas para pensar (investigar, pensar, teach, bro, waitwhat) y las guardias que mantienen tu carpeta en orden",
   "author": {
     "name": "AI Sherpa"

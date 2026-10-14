@@ -21,8 +21,9 @@ Reglas de la conversación:
   llenado. No la resumas: hazle la pregunta correspondiente, de a una, y escribe la respuesta
   cuando la confirme.
 - En cualquier momento puede decir «pausa» y retomas donde estabas la próxima vez.
-- Toda la conversación en español, con «tú», sin jerga técnica salvo la imprescindible, y
-  explicando esa en la misma frase.
+- Toda la conversación en español, sin jerga técnica salvo la imprescindible, y explicando esa
+  en la misma frase. Trata a la persona como indique `AGENTS.md` («tú» o «usted»); las preguntas
+  de ejemplo de abajo están con «tú»: si toca «usted», adáptalas.
 
 ## 0. Bienvenida
 
