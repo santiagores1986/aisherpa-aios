@@ -71,20 +71,35 @@ Apply what they confirm to `priorities.md`.
 
 ## 5. Connected apps and your voice
 
-Explain in four sentences, without technical words:
-- The workspace can connect to their accounts (email, calendar, files) if they want. Each
-  connection asks for their permission and is done once. You won't connect anything without
-  their yes. The tools they already use are listed in `AGENTS.md`.
+Connections first, without technical words. Tell them the workspace can connect to their
+accounts (email, calendar, files) if they want, that you won't connect anything without their yes,
+and that there are two ways; they choose, and they can use both. The tools they already use are in
+`AGENTS.md`: name them.
+- **Standard**: the connections of their Claude account (Gmail, Google Calendar, Google Drive and
+  others). Pros: two minutes, and they also work in the Claude app and on their phone. Limits: one
+  Google account per service, and email doesn't handle attachments.
+- **Advanced**: connections installed on this Mac, the same ones Santiago uses. Pros: several
+  accounts at once (for example personal and work email), email drafts with formatting and
+  attachments, and editing Google Docs and Sheets. Limits: it needs a Google Cloud project created
+  with their account, about 30 to 60 minutes, done with Santiago in a session; they only work on
+  this Mac.
+
+Ask which one they want, or whether to leave it for later. Then:
+- **Standard, now**: don't ask them to go find the page: open it yourself with
+  `open "https://claude.ai/customize/connectors"`. There they click the **+** next to the service
+  and sign in with their account. Tell them plainly that a new connection only shows up in a new
+  session. Before they leave, write "Resume /aios:start at part 5, voice" in
+  `context/priorities.md`, under Pending; then they type `/exit` and `aios` again. When they're
+  back, check the connection shows up (its tools are now available to you) and go on with voice.
+- **Advanced**: ask which accounts they want connected and write "Set up advanced connectors with
+  Santiago in a session: <accounts>" in `context/priorities.md`, under Pending. Go on.
+- **Later**: write that under Pending too and go on.
+
+Then voice:
 - To write in their name, it helps to learn how they write. The plan is to read about twenty
   emails or texts they wrote, only read them, and save what stands out in `context/voice.md`,
   which they approve before it is used.
 - Ask: "Is it OK to do that next session?" Write the answer in `priorities.md`, under Pending.
-- If they want to connect an account right now (email, calendar, Drive), their Claude account's
-  connections are added on claude.ai, under Customize → Connectors: open that page for them with
-  `open "https://claude.ai/new#customize/connectors"` and let them add it there with their account.
-  Tell them plainly that a new connection only shows up in a new session. Before they leave, write
-  "Resume /aios:start at part 6" in `context/priorities.md`, under Pending; then they type `/exit`
-  and `aios` again. When they're back, check the connection shows up and go on with part 6.
 - Invite them: if they have articles, texts or emails that show how they write well, they can
   paste them here now. Save what they paste in `context/samples/` with a descriptive name
   (create the folder if it doesn't exist), and tell them where it went.
