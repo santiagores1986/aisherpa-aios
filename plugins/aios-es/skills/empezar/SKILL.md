@@ -73,22 +73,35 @@ Aplica lo confirmado a `prioridades.md`.
 
 ## 5. Conectores y tu voz
 
-Explica en cuatro frases, sin tecnicismos:
-- Que el entorno puede conectarse a sus cuentas (correo, calendario, archivos) si ella lo quiere,
-  que cada conexión pide su permiso y se hace una sola vez, y que no conectarás nada sin su sí.
-  Las herramientas que ya usa están en `AGENTS.md`.
+Primero las conexiones, sin tecnicismos. Dile que el entorno puede conectarse a sus cuentas
+(correo, calendario, archivos) si quiere, que no conectarás nada sin su sí, y que hay dos formas;
+ella elige, y puede usar las dos. Las herramientas que ya usa están en `AGENTS.md`: nómbralas.
+- **Estándar**: las conexiones de su cuenta de Claude (Gmail, Google Calendar, Google Drive y
+  otras). Ventajas: toma dos minutos y sirven también en la app de Claude y en el celular.
+  Límites: una sola cuenta de Google por servicio, y el correo no maneja adjuntos.
+- **Avanzada**: conexiones instaladas en este Mac, las mismas que usa Santiago. Ventajas: varias
+  cuentas a la vez (por ejemplo, el correo personal y el del trabajo), borradores de correo con
+  formato y adjuntos, y editar Documentos y Hojas de cálculo de Google. Límites: hay que crear un
+  proyecto en Google Cloud con su cuenta, unos 30 a 60 minutos, y se hace con Santiago en una
+  clase; solo funcionan en este Mac.
+
+Pregunta cuál quiere, o si prefiere dejarlo para después. Según lo que diga:
+- **Estándar, ahora**: no le pidas que vaya a buscar la página: ábresela tú con
+  `open "https://claude.ai/customize/connectors"`. Ahí hace clic en el **+** junto al servicio y
+  entra con su cuenta. Dile claro que una conexión nueva solo aparece en una sesión nueva. Antes de
+  que salga, anota en `contexto/prioridades.md`, en Pendientes, «Retomar /aios-es:empezar en la
+  parte 5, la voz»; luego que escriba `/exit` y otra vez `aios`. Al volver, comprueba que la
+  conexión aparece (que ya tienes sus herramientas) y sigue con la voz.
+- **Avanzada**: pregunta qué cuentas quiere conectar y anota en `contexto/prioridades.md`, en
+  Pendientes, «Configurar conectores avanzados con Santiago en una clase: <cuentas>». Sigue.
+- **Después**: anótalo igual en Pendientes y sigue.
+
+Luego la voz:
 - Que, para escribir en su nombre, conviene aprender cómo escribe. El plan es leer unos veinte
   correos o textos que ella haya escrito, solo leerlos, y guardar lo que se note en
   `contexto/voz.md`, que ella aprobará antes de que se use.
 - Pregunta: «¿Te parece bien que lo hagamos en la próxima sesión?». Anota la respuesta en
   `prioridades.md`, en Pendientes.
-- Si quiere conectar una cuenta ya mismo (correo, calendario, Drive), las conexiones de su cuenta
-  de Claude se agregan en claude.ai, en Customize → Connectors (si su Claude está en español,
-  los mismos menús en español): ábrele esa página con `open "https://claude.ai/new#customize/connectors"` y que la
-  agregue ahí con su cuenta. Dile claro que una conexión nueva solo aparece en una sesión nueva.
-  Antes de que salga, anota en `contexto/prioridades.md`, en Pendientes, «Retomar
-  /aios-es:empezar en la parte 6»; luego que escriba `/exit` y otra vez `aios`. Al volver,
-  comprueba que la conexión aparece y sigue con la parte 6.
 - Invítala: si tiene artículos, textos o correos que representen bien cómo escribe, puede
   pegarlos aquí ahora. Lo que pegue, guárdalo en `contexto/muestras/` con un nombre descriptivo
   (crea la carpeta si no existe), y dile dónde quedó.
