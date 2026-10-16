@@ -1,6 +1,6 @@
 ---
 name: pensar
-description: Pensar un problema con método antes de decidir. Cinco modos, la persona elige o tú propones uno: primeros principios, abogado del diablo, consejo de voces, ideas, a fondo. USE WHEN pensar, pensemos esto, ayúdame a pensar, ponle peros, dame ideas, mira esto desde varios ángulos, no sé qué decidir, ¿qué opinas de esta idea?, necesito otra mirada.
+description: "Pensar un problema con método antes de decidir. Cinco modos, la persona elige o tú propones uno: primeros principios, abogado del diablo, consejo de voces, ideas, a fondo. USE WHEN pensar, pensemos esto, ayúdame a pensar, ponle peros, dame ideas, mira esto desde varios ángulos, no sé qué decidir, ¿qué opinas de esta idea?, necesito otra mirada."
 argument-hint: "¿Qué quieres pensar? (y el modo, si ya lo sabes)"
 ---
 

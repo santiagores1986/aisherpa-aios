@@ -1,6 +1,6 @@
 ---
 name: investigar
-description: Investigar un tema con la técnica de triangulación: un buen prompt de investigación, la misma pregunta en dos modelos, y una comparación de señal, complemento y contradicción. USE WHEN investigar, investiga, necesito entender bien este sector, esta empresa o esta pregunta, hazme la investigación, averigua todo sobre, quiero saber si es cierto que.
+description: "Investigar un tema con la técnica de triangulación: un buen prompt de investigación, la misma pregunta en dos modelos, y una comparación de señal, complemento y contradicción. USE WHEN investigar, investiga, necesito entender bien este sector, esta empresa o esta pregunta, hazme la investigación, averigua todo sobre, quiero saber si es cierto que."
 argument-hint: "¿Qué quieres investigar y para qué?"
 ---
 

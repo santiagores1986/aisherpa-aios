@@ -1,6 +1,6 @@
 ---
 name: teach
-description: Aprender un tema nuevo con un método simple: primero un texto base bien escrito, después las preguntas para el experto. USE WHEN teach, enséñame, quiero aprender sobre, explícame esta industria, explícame cómo funciona, necesito entender X antes de una reunión, no sé nada de este tema, prepárame para hablar con un experto.
+description: "Aprender un tema nuevo con un método simple: primero un texto base bien escrito, después las preguntas para el experto. USE WHEN teach, enséñame, quiero aprender sobre, explícame esta industria, explícame cómo funciona, necesito entender X antes de una reunión, no sé nada de este tema, prepárame para hablar con un experto."
 argument-hint: "¿Qué quieres aprender?"
 ---
 

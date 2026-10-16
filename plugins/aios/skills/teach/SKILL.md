@@ -1,6 +1,6 @@
 ---
 name: teach
-description: Learn a new topic with a simple method: first a well-written base text, then the questions for the expert. USE WHEN teach, teach me, I want to learn about, explain this industry, explain how this works, I need to understand X before a meeting, I know nothing about this, get me ready to talk to an expert.
+description: "Learn a new topic with a simple method: first a well-written base text, then the questions for the expert. USE WHEN teach, teach me, I want to learn about, explain this industry, explain how this works, I need to understand X before a meeting, I know nothing about this, get me ready to talk to an expert."
 argument-hint: "What do you want to learn?"
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: cerrar
-description: Cerrar la sesión de trabajo dejando rastro: bitácoras al día, prioridades actualizadas, reglas propuestas. USE WHEN cerrar, cerremos, hasta aquí, terminamos, ya acabé por hoy, dejemos esto aquí, me voy, termina la sesión, guarda dónde quedamos.
+description: "Cerrar la sesión de trabajo dejando rastro: bitácoras al día, prioridades actualizadas, reglas propuestas. USE WHEN cerrar, cerremos, hasta aquí, terminamos, ya acabé por hoy, dejemos esto aquí, me voy, termina la sesión, guarda dónde quedamos."
 ---
 
 # /aios-es:cerrar
