@@ -25,7 +25,7 @@ Di en una línea que vas a dejar esto listo una sola vez, y pregunta de a una:
    - Si no hay conexión, acuerden el camino manual: copia la transcripción desde la app y la pega
      aquí, o guarda el archivo en la carpeta `entradas/` del proyecto. Muéstrale los pasos exactos
      para su app, cortos. Si solo tiene el audio o el video, lo guarda en `entradas/` y tú lo
-     transcribes en el Mac: `ffmpeg -y -i <archivo> -ar 16000 -ac 1 /tmp/aios-audio.wav`, luego
+     transcribes en este computador: `ffmpeg -y -i <archivo> -ar 16000 -ac 1 /tmp/aios-audio.wav`, luego
      `whisper-cli -m ~/.cache/whisper-models/ggml-small.bin -l auto -otxt -of /tmp/aios-audio -f /tmp/aios-audio.wav`.
    - Si no graba nada, el camino es: apenas termina la llamada, habla dos minutos sobre lo que pasó
      (con dictado sirve) y tú trabajas con eso.

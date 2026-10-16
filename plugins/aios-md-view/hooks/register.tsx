@@ -44,10 +44,35 @@ async function langOf($: EngineInterface): Promise<Lang> {
   return lang
 }
 
-const homeOf = async ($: EngineInterface) => {
-  const parts = (await $.session.cwd()).split('/')
-  return parts[1] === 'Users' && parts[2] ? '/Users/' + parts[2] : HOME
+// The person's home folder. A Mac working folder under /Users/<name> gives /Users/<name>; a Windows one
+// (C:\Users\<name>\...) gives USERPROFILE, or that folder when the variable is not readable; anywhere else HOME.
+const envOf = async ($: EngineInterface, k: 'HOME' | 'USERPROFILE' | 'OS' | 'LOCALAPPDATA') => {
+  try {
+    const v = k === 'HOME' ? await $.env.get('HOME') : k === 'USERPROFILE' ? await $.env.get('USERPROFILE') : k === 'OS' ? await $.env.get('OS') : await $.env.get('LOCALAPPDATA')
+    return String(v ?? '').replace(/[\\/]+$/, '')
+  } catch { return '' }
 }
+const homeOf = async ($: EngineInterface) => {
+  const cwd = await $.session.cwd()
+  const parts = cwd.split(/[\\/]/)
+  if (cwd.startsWith('/')) {
+    if (parts[1] === 'Users' && parts[2]) return '/Users/' + parts[2]
+    return (await envOf($, 'HOME')) || HOME
+  }
+  const win = /^[A-Za-z]:$/.test(parts[0]) && parts[1] === 'Users' && parts[2] ? parts[0] + '\\Users\\' + parts[2] : ''
+  return (await envOf($, 'USERPROFILE')) || win || (await envOf($, 'HOME')) || HOME
+}
+// Windows: a drive-letter working folder or home, or OS=Windows_NT
+let WIN: boolean | null = null
+const isWindows = async ($: EngineInterface) => {
+  if (WIN !== null) return WIN
+  WIN = /^[A-Za-z]:/.test(await $.session.cwd()) || (await envOf($, 'OS')) === 'Windows_NT'
+  return WIN
+}
+const isAbs = (p: string) => p.startsWith('/') || /^[A-Za-z]:[\\/]/.test(p) || p.startsWith('\\\\')
+// file: URL of an absolute path (file:///C:/Users/x/a.md on Windows) and back
+const toFileUrl = (abs: string) => { const q = abs.replace(/\\/g, '/'); return 'file://' + (q.startsWith('/') ? q : '/' + q) }
+const fromFileUrl = (href: string) => { const q = decodeURI(href.slice(7)); return /^\/[A-Za-z]:/.test(q) ? q.slice(1) : q }
 const MAX_DOCS = 6
 const CHUNK = 9000 // the Markdown element takes at most 10,000 characters
 
@@ -58,12 +83,17 @@ const picks = atom({ plugin: 'aios-md-view', key: 'picks' } as const, [] as stri
 let HOME = ''
 
 const isMd = (p: string) => /\.(md|markdown|mdx)$/i.test(p)
-const baseName = (p: string) => p.split('/').filter(Boolean).pop() ?? p
-const dirName = (p: string) => p.slice(0, p.lastIndexOf('/')) || '/'
+const baseName = (p: string) => p.split(/[\\/]/).filter(Boolean).pop() ?? p
+const dirName = (p: string) => p.slice(0, Math.max(p.lastIndexOf('/'), p.lastIndexOf('\\'))) || '/'
 
 // Glow does the rendering (installed from Homebrew): the pane runs it at the pane's
 // width and draws its coloured output. Without Glow the pane draws the Markdown itself. ANSI colours map to this palette.
 const GLOW_PATHS = ['/opt/homebrew/bin/glow', '/usr/local/bin/glow']
+// Windows: where winget puts it
+const glowWinPaths = async ($: EngineInterface) => {
+  const local = (await envOf($, 'LOCALAPPDATA')) || (await homeOf($)) + '\\AppData\\Local'
+  return [local + '\\Microsoft\\WinGet\\Links\\glow.exe']
+}
 const ANSI = ['#1e1e2e', '#ff6b7a', '#7ee0a8', '#f5c96a', '#7aa8ff', '#c49bff', '#5ee0c8', '#d6dbe6',
   '#5b6478', '#ff8a96', '#9cf0bf', '#ffd98a', '#9cc0ff', '#d6b8ff', '#8cf0dc', '#ffffff']
 
@@ -156,8 +186,17 @@ let hintPath = '' // the document that carries the one-time "install Glow" hint
 // Homebrew on Apple silicon, Homebrew on Intel, then whatever is on PATH
 async function findGlow($: EngineInterface): Promise<string | null> {
   if (glowBin) return glowBin
-  for (const c of GLOW_PATHS) {
+  const win = await isWindows($)
+  for (const c of win ? await glowWinPaths($) : GLOW_PATHS) {
     try { await $.fs.stat(c); glowBin = c; return c } catch { /* try the next one */ }
+  }
+  if (win) {
+    try {
+      const r = await $.process.run(['where.exe', 'glow'], { timeoutMs: 3000 })
+      const found = String(r.stdout ?? '').trim().split(/\r?\n/)[0]
+      if (r.exitCode === 0 && found) { glowBin = found; return found }
+    } catch { /* not on PATH */ }
+    return null
   }
   try {
     const r = await $.process.run(['/usr/bin/which', 'glow'], { env: { PATH: process.env.PATH ?? '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin' }, timeoutMs: 3000 })
@@ -177,7 +216,9 @@ async function glowLines($: EngineInterface, path: string, width: number): Promi
   if (hit) return hit
   try {
     const r = await $.process.run([bin, '-s', 'dark', '-w', String(Math.max(40, width - 2)), path], {
-      env: { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color', PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin' },
+      env: (await isWindows($))
+        ? { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color' }
+        : { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color', PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin' },
       timeoutMs: 8000,
     })
     if (r.exitCode !== 0) return null
@@ -203,7 +244,7 @@ export const blocksOf = (source: string, dir: string, lang: Lang = 'en'): Block[
   text = text.replace(/^---\n[\s\S]*?\n---\n/, '')
   // ![alt](path) -> a link that opens the picture
   text = text.replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g, (_m, alt, src) => {
-    const href = /^(https?|file):/.test(src) ? src : 'file://' + (src.startsWith('/') ? src : dir + '/' + src)
+    const href = /^(https?|file):/.test(src) ? src : toFileUrl(isAbs(src) ? src : dir + '/' + src)
     return `[🖼 ${alt || baseName(src)} (${tr('open', lang)})](${encodeURI(href)})`
   })
   const out: Block[] = []
@@ -249,10 +290,10 @@ export const blocksOf = (source: string, dir: string, lang: Lang = 'en'): Block[
 // (open on the Mac). The target is a file: URL to the absolute path.
 const IMAGE = /\.(png|jpe?g|gif|webp|heic|svg|bmp|tiff?)$/i
 export const linkLabel = (p: string) => (isMd(p) ? '📄 ' : IMAGE.test(p) ? '🖼 ' : '📎 ') + baseName(p)
-const PATHLIKE = /^(~\/|\/|\.\.?\/)[^\s`]*\.[A-Za-z0-9]{1,6}$|^[\w.-]+(\/[\w.@ -]+)+\.[A-Za-z0-9]{1,6}$/
+const PATHLIKE = /^(~[\\/]|[A-Za-z]:[\\/]|\/|\.\.?[\\/])[^\s`]*\.[A-Za-z0-9]{1,6}$|^[\w.-]+([\\/][\w.@ -]+)+\.[A-Za-z0-9]{1,6}$/
 export const linkify = (text: string, cwd: string, home: string) => {
   let count = 0
-  const abs = (p: string) => p.startsWith('~/') ? home + p.slice(1) : p.startsWith('/') ? p : cwd + '/' + p.replace(/^\.\//, '')
+  const abs = (p: string) => /^~[\\/]/.test(p) ? home + p.slice(1) : isAbs(p) ? p : cwd + '/' + p.replace(/^\.[\\/]/, '')
   // Leave code blocks alone
   const parts = text.split(/(```[\s\S]*?```)/)
   const out = parts.map((part, i) => {
@@ -262,12 +303,12 @@ export const linkify = (text: string, cwd: string, home: string) => {
       const p = inner.trim()
       if (!PATHLIKE.test(p) || p.includes('://')) return m
       count += 1
-      return `[${linkLabel(p)}](${encodeURI('file://' + abs(p))})`
+      return `[${linkLabel(p)}](${encodeURI(toFileUrl(abs(p)))})`
     })
-    // bare ~/... or /Users/... paths in prose
-    s = s.replace(/(^|[\s(])((?:~|\/Users)\/[^\s`)\]]+\.[A-Za-z0-9]{1,6})(?=[\s).,;:!?]|$)/gm, (m, pre, p) => {
+    // bare ~/... or /Users/... (C:\Users\... on Windows) paths in prose
+    s = s.replace(/(^|[\s(])((?:~|\/Users|[A-Za-z]:[\\/]Users)[\\/][^\s`)\]]+\.[A-Za-z0-9]{1,6})(?=[\s).,;:!?]|$)/gm, (m, pre, p) => {
       count += 1
-      return `${pre}[${linkLabel(p)}](${encodeURI('file://' + abs(p))})`
+      return `${pre}[${linkLabel(p)}](${encodeURI(toFileUrl(abs(p)))})`
     })
     return s
   })
@@ -277,7 +318,7 @@ export const linkify = (text: string, cwd: string, home: string) => {
 // A click on a link: Markdown opens in the pane, anything else on the Mac
 async function openLink($: EngineInterface, href: string) {
   if (href.startsWith('file://')) {
-    const path = decodeURI(href.slice(7))
+    const path = fromFileUrl(href)
     if (isMd(path)) return show($, path)
   }
   await openOnMac($, href)
@@ -289,7 +330,9 @@ async function showPicker($: EngineInterface) {
   const home = await homeOf($)
   const roots = [home + '/AIOS', await $.session.cwd()]
   let found: string[] = []
-  try {
+  if (await isWindows($)) {
+    found = await recentMarkdown($, roots)
+  } else try {
     const r = await $.process.run(['/usr/bin/find', ...roots, '-name', '*.md', '-mtime', '-7', '-not', '-path', '*/node_modules/*', '-not', '-path', '*/.git/*'], { timeoutMs: 8000 })
     found = String(r.stdout ?? '').split('\n').filter(isReadable)
   } catch { /* nothing found */ }
@@ -303,9 +346,32 @@ async function showPicker($: EngineInterface) {
   await opening
 }
 
+// Windows has no find: walk the folders and keep the Markdown files changed in the last 7 days
+async function recentMarkdown($: EngineInterface, roots: string[]): Promise<string[]> {
+  const since = (await $.clock.now()) - 7 * 24 * 3600 * 1000
+  const out: string[] = []
+  let visited = 0
+  const walk = async (dir: string, depth: number): Promise<void> => {
+    if (depth > 6 || visited > 4000) return
+    let entries: Array<{ name: string; kind: string }> = []
+    try { entries = (await $.fs.list(dir)) as any } catch { return }
+    for (const en of entries) {
+      visited += 1
+      const full = dir.replace(/[\\/]+$/, '') + '/' + en.name
+      if (en.kind === 'directory' || en.kind === 'dir') {
+        if (en.name !== 'node_modules' && en.name !== '.git') await walk(full, depth + 1)
+      } else if (isMd(en.name)) {
+        try { if ((await $.fs.stat(full)).mtimeMs >= since) out.push(full) } catch { /* unreadable */ }
+      }
+    }
+  }
+  for (const r of roots) await walk(r, 0)
+  return out.filter(isReadable)
+}
+
 async function resolvePath($: EngineInterface, p: string) {
-  const clean = p.trim().replace(/^["']|["']$/g, '').replace(/^~(?=\/)/, await homeOf($))
-  if (clean.startsWith('/')) return clean
+  const clean = p.trim().replace(/^["']|["']$/g, '').replace(/^~(?=[\\/])/, await homeOf($))
+  if (isAbs(clean)) return clean
   return (await $.session.cwd()) + '/' + clean
 }
 
@@ -325,13 +391,18 @@ async function show($: EngineInterface, path: string) {
   try { await $.ui.scroll({ in: PANE, to: 'start', block: 'start' }) } catch { /* nothing to scroll yet */ }
 }
 
-// Open a picture or web link on the Mac
+// Open a picture or web link with the computer's own program (the Mac's open; Windows' explorer)
 async function openOnMac($: EngineInterface, href: string) {
-  await $.process.run(['/usr/bin/open', href.startsWith('file://') ? decodeURI(href.slice(7)) : href])
+  const target = href.startsWith('file://') ? fromFileUrl(href) : href
+  if (await isWindows($)) {
+    await $.process.run(['explorer.exe', /^[a-z][a-z0-9+.-]+:\/\//i.test(target) ? target : target.replace(/\//g, '\\')])
+    return
+  }
+  await $.process.run(['/usr/bin/open', target])
 }
 
 // Claude's own settings and memory notes are not documents to read: keep them off the strip
-const BOOKKEEPING = /\/\.claude\/|\/AIOS\/(memory|memoria)\/|\/node_modules\/|\/\.git\//
+const BOOKKEEPING = /[\\/]\.claude[\\/]|[\\/]AIOS[\\/](memory|memoria)[\\/]|[\\/]node_modules[\\/]|[\\/]\.git[\\/]/
 export const isReadable = (p: string) => isMd(p) && !BOOKKEEPING.test(p)
 
 async function remember($: EngineInterface, paths: string[]) {

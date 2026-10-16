@@ -8,6 +8,13 @@ Second argument: language, en or es. The hooks act only inside an AIOS folder
 Deterministic: they read files and print. They decide nothing else."""
 import json, os, re, sys, datetime, pathlib
 
+# Windows consoles default to a legacy code page: always speak UTF-8 (accents in names, Spanish text)
+for _s in (sys.stdin, sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 L = {
  'en': dict(ctx='context', pri='priorities.md', where=r'Where we are|Active projects', areas=['work','personal'],
    proj='projects', archive='archive', logf='log.md', mem='memory/MEMORY.md', other='other-areas',

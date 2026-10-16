@@ -17,7 +17,7 @@ lo que le sorprendió, lo que se robaría y lo que significa para ti. No un resu
   y lee el .vtt que escribe (ignora las líneas de tiempos). Si no hay transcripción, descarga el
   audio (`yt-dlp -x --audio-format mp3 -o "/tmp/aios-%(id)s.%(ext)s" <url>`) y transcríbelo como abajo.
 - **Un archivo de audio o video** (una nota de voz, una grabación de Zoom, un episodio de pódcast):
-  transcríbelo en el Mac. `ffmpeg -y -i <archivo> -ar 16000 -ac 1 /tmp/aios-audio.wav`, luego
+  transcríbelo en este computador. `ffmpeg -y -i <archivo> -ar 16000 -ac 1 /tmp/aios-audio.wav`, luego
   `whisper-cli -m ~/.cache/whisper-models/ggml-small.bin -l auto -otxt -of /tmp/aios-audio -f /tmp/aios-audio.wav`,
   y lee `/tmp/aios-audio.txt`. Una grabación larga se demora: dilo antes de empezar.
 - **Un archivo de texto o texto pegado:** úsalo tal cual.

@@ -7,12 +7,27 @@ import { findMissingAccents, isClearlySpanish, refusal, type Lang } from './acce
 
 let LANG: Lang | null = null
 
+// The person's home folder. A Mac working folder under /Users/<name> gives /Users/<name>; a Windows one
+// (C:\Users\<name>\...) gives USERPROFILE, or that folder when the variable is not readable; anywhere else HOME.
+async function homeDir($: EngineInterface): Promise<string> {
+  const cwd = await $.session.cwd()
+  const parts = cwd.split(/[\\/]/)
+  const env = async (k: 'HOME' | 'USERPROFILE') => {
+    try { return String((k === 'HOME' ? await $.env.get('HOME') : await $.env.get('USERPROFILE')) ?? '').replace(/[\\/]+$/, '') } catch { return '' }
+  }
+  if (cwd.startsWith('/')) {
+    if (parts[1] === 'Users' && parts[2]) return '/Users/' + parts[2]
+    return await env('HOME')
+  }
+  const win = /^[A-Za-z]:$/.test(parts[0]) && parts[1] === 'Users' && parts[2] ? parts[0] + '\\Users\\' + parts[2] : ''
+  return (await env('USERPROFILE')) || win || (await env('HOME'))
+}
+
 async function langOf($: EngineInterface): Promise<Lang> {
   if (LANG) return LANG
   let lang: Lang = 'en'
   try {
-    const parts = (await $.session.cwd()).split('/')
-    const home = parts[1] === 'Users' && parts[2] ? '/Users/' + parts[2] : ''
+    const home = await homeDir($)
     if (home) {
       const j = JSON.parse(await $.fs.read(home + '/.aios/installed.json'))
       if (j && j.lang === 'es') lang = 'es'

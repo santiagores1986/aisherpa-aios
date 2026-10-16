@@ -79,15 +79,16 @@ ella elige, y puede usar las dos. Las herramientas que ya usa están en `AGENTS.
 - **Estándar**: las conexiones de su cuenta de Claude (Gmail, Google Calendar, Google Drive y
   otras). Ventajas: toma dos minutos y sirven también en la app de Claude y en el celular.
   Límites: una sola cuenta de Google por servicio, y el correo no maneja adjuntos.
-- **Avanzada**: conexiones instaladas en este Mac, las mismas que usa Santiago. Ventajas: varias
+- **Avanzada**: conexiones instaladas en este computador, las mismas que usa Santiago. Ventajas: varias
   cuentas a la vez (por ejemplo, el correo personal y el del trabajo), borradores de correo con
   formato y adjuntos, y editar Documentos y Hojas de cálculo de Google. Límites: hay que crear un
   proyecto en Google Cloud con su cuenta, unos 30 a 60 minutos, y se hace con Santiago en una
-  clase; solo funcionan en este Mac.
+  clase; solo funcionan en este computador.
 
 Pregunta cuál quiere, o si prefiere dejarlo para después. Según lo que diga:
-- **Estándar, ahora**: no le pidas que vaya a buscar la página: ábresela tú con
-  `open "https://claude.ai/customize/connectors"`. Ahí hace clic en el **+** junto al servicio y
+- **Estándar, ahora**: no le pidas que vaya a buscar la página: ábresela tú
+  (en Mac con `open "https://claude.ai/customize/connectors"`, en Windows con
+  `explorer.exe "https://claude.ai/customize/connectors"`). Ahí hace clic en el **+** junto al servicio y
   entra con su cuenta. Dile claro que una conexión nueva solo aparece en una sesión nueva. Antes de
   que salga, anota en `contexto/prioridades.md`, en Pendientes, «Retomar /aios-es:empezar en la
   parte 5, la voz»; luego que escriba `/exit` y otra vez `aios`. Al volver, comprueba que la
@@ -109,9 +110,9 @@ Luego la voz:
 ## 6. Cómo funciona esto
 
 Cuéntale en siete frases, sin más:
-- Todo vive en una carpeta llamada AIOS. Para abrirla, un clic en la carpeta AIOS del Dock, abajo
-  en la pantalla junto a la Papelera, o simplemente pedírtelo: «abre mi carpeta» (entonces corre
-  `open .`). Nada suyo se guarda escondido.
+- Todo vive en una carpeta llamada AIOS. Para abrirla, un clic en la carpeta AIOS del Dock (Mac), abajo
+  en la pantalla junto a la Papelera, o en Acceso rápido del Explorador de archivos (Windows), o simplemente pedírtelo: «abre mi carpeta» (entonces corre
+  `open .` en Mac o `explorer.exe .` en Windows). Nada suyo se guarda escondido.
 - `contexto/` es quién es; `trabajo/` es su trabajo; `personal/` es suyo si lo quiere.
 - Cada encargo es una carpeta dentro de `trabajo/proyectos/`; cuando termina, la arrastra a
   `archivo/`.
@@ -153,7 +154,7 @@ Cuéntale en siete frases, sin más:
    ```
 3. Añade en `.claude/settings.json` (el de esta carpeta) la clave `autoMemoryDirectory` con la ruta
    absoluta de la carpeta `memoria/` de este entorno (calcúlala desde la carpeta actual, con
-   `pwd` en la Terminal), si no está ya. Edita solo esa clave y conserva todo lo demás intacto. Explica en una frase que así tus notas se
+   `pwd` en la terminal; en Windows escríbela con la letra de la unidad, por ejemplo `C:/Users/nombre/AIOS/memoria`), si no está ya. Edita solo esa clave y conserva todo lo demás intacto. Explica en una frase que así tus notas se
    guardan dentro de su carpeta y no escondidas, y que queda activo la próxima vez que abra el
    entorno.
 4. Despídete en tres líneas: qué quedó listo, qué conviene tener a mano para la próxima sesión

@@ -1,6 +1,6 @@
 {
   "name": "aios-keepwarm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Keeps Claude's prompt cache warm while you take a break, so the next message costs a read, not a full re-write, and stops a cold send once to show its price. Based on cache-tax by Karan Bansal (MIT, https://github.com/karanb192/cache-tax). Warming uses model requests and costs tokens. Requires Claude Code 2.1.287+.",
   "author": {
     "name": "AI Sherpa"
