@@ -24,8 +24,11 @@ make reads this same folder, so a change made in one project shows up in all of 
 - If Google Drive or Google Docs isn't reachable, say so in one line and send them to Customize →
   Connectors (the steps are in `its-broken`). Don't fall back to downloads.
 - The project's Library may hold old copies of these files. The Drive folder is the one that counts.
+- Connecting an app (Gmail, Notion, a CRM...) is in **Customize → Connectors** (never "Settings"); a
+  new connection reaches new threads, not the ones already open.
 
-1. **Where we are.** Propose the new "Where we are" section for `priorities`: today's date, where the
+1. **Where we are.** Propose the new "Where we are" section for `priorities` (right under its "Last
+   updated" line, replacing the old one): today's date, where the
    session ended, the agreed next step in one sentence. If a project's status changed, update its line
    under the work fronts too.
 2. **What you learned.** If they corrected you or stated a preference, propose a line for "Learned

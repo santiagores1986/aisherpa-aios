@@ -25,6 +25,8 @@ make reads this same folder, so a change made in one project shows up in all of 
 - If Google Drive or Google Docs isn't reachable, say so in one line and send them to Customize →
   Connectors (the steps are in `its-broken`). Don't fall back to downloads.
 - The project's Library may hold old copies of these files. The Drive folder is the one that counts.
+- Connecting an app (Gmail, Notion, a CRM...) is in **Customize → Connectors** (never "Settings"); a
+  new connection reaches new threads, not the ones already open.
 
 Rules: one question at a time; show what's written first and ask after (never ask what a file
 already says); each correction becomes an exact proposed change, written after their yes; "next" or
@@ -33,13 +35,13 @@ time; plain words. They may dictate by voice: read the intent, not the typos. Ad
 first name (it's in `about-me`).
 
 ## Where we are
-Before anything else (after their files exist), read the "Where we are" section at the end of
-`priorities`. If it says the first session was paused at a part, welcome them back in one line and
+Before anything else (after their files exist), read the "Where we are" section of `priorities`
+(right under its "Last updated" line). If it says the first session was paused at a part, welcome them back in one line and
 resume at that part. If it says the first session was completed, don't repeat it: ask in one line
 what they'd like to do (go over one part again, or start their first project).
 When they say "pause", write the line "- First session paused at part N (name),
-YYYY-MM-DD." into that section of `priorities` (create the section if needed, replacing an older
-paused line), confirm in one line where you'll pick up, and stop.
+YYYY-MM-DD." into that section of `priorities` (create it right under "Last updated" if needed, replacing an
+older paused line), confirm in one line where you'll pick up, and stop.
 
 ## 0. Their files (first time only)
 1. Check you have both Google connectors: search Drive for anything, and confirm you can read Google
@@ -107,7 +109,7 @@ Eight sentences at most:
 - Nothing goes out to anyone without their approval.
 
 ## Closing
-Update `priorities` (after their yes): in the "Where we are" section at the end, replace any paused
+Update `priorities` (after their yes): in the "Where we are" section (right under "Last updated"), replace any paused
 line with "- First session completed on YYYY-MM-DD. Assistant named: N. Next: X." Apply any other correction
 they confirmed, Doc by Doc. Say goodbye in three lines: what's ready, what to have at hand next time,
 and "I'm here when you want to start the first project."

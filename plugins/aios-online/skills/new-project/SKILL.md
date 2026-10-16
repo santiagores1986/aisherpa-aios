@@ -29,6 +29,8 @@ make reads this same folder, so a change made in one project shows up in all of 
 - If Google Drive or Google Docs isn't reachable, say so in one line and send them to Customize →
   Connectors (the steps are in `its-broken`). Don't fall back to downloads.
 - The project's Library may hold old copies of these files. The Drive folder is the one that counts.
+- Connecting an app (Gmail, Notion, a CRM...) is in **Customize → Connectors** (never "Settings"); a
+  new connection reaches new threads, not the ones already open.
 
 Then, without more questions:
 - **Instructions.** Write the project's Instructions as one block they can copy. Start with the same
