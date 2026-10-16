@@ -32,6 +32,15 @@ already says); each correction becomes an exact proposed change, written after t
 time; plain words. They may dictate by voice: read the intent, not the typos. Address them by their
 first name (it's in `about-me`).
 
+## Where we are
+Before anything else (after their files exist), read the "Where we are" section at the end of
+`priorities`. If it says the first session was paused at a part, welcome them back in one line and
+resume at that part. If it says the first session was completed, don't repeat it: ask in one line
+what they'd like to do (go over one part again, or start their first project).
+When they say "pause", write the line "- First session paused at part N (name),
+YYYY-MM-DD." into that section of `priorities` (create the section if needed, replacing an older
+paused line), confirm in one line where you'll pick up, and stop.
+
 ## 0. Their files (first time only)
 1. Check you have both Google connectors: search Drive for anything, and confirm you can read Google
    Docs. If either is missing, stop and tell them in three lines: open Customize → Connectors, connect
@@ -98,7 +107,7 @@ Eight sentences at most:
 - Nothing goes out to anyone without their approval.
 
 ## Closing
-Update `priorities` (after their yes): add or replace a "Where we are" section at the end with
-"- First session completed on YYYY-MM-DD. Assistant named: N. Next: X." Apply any other correction
+Update `priorities` (after their yes): in the "Where we are" section at the end, replace any paused
+line with "- First session completed on YYYY-MM-DD. Assistant named: N. Next: X." Apply any other correction
 they confirmed, Doc by Doc. Say goodbye in three lines: what's ready, what to have at hand next time,
 and "I'm here when you want to start the first project."
