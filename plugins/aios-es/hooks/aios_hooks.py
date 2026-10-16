@@ -21,14 +21,12 @@ L = {
    head='WHERE THINGS STAND (generated when the session opened, {t})', lastlog='## Last entry in each active project log',
    nolog='- (no project with a log yet)', memn='Memory: {n} memories in memory/MEMORY.md (already loaded).', mem0='Memory: empty so far.',
    greet='Greet with this state in two lines and ask where we pick up. Claim nothing that is not here or in the files.',
-   first=('memory/start-session.md', 'start completed', 'The guided first session has not been done yet. Whatever the person writes first (even just hi), start /aios:start right away, without asking.'),
    logmsg='Before you finish: {p} changed and its log.md is older than those changes. Add one dated line: what was done and what was decided. If log.md does not exist, create it.',),
  'es': dict(ctx='contexto', pri='prioridades.md', where=r'Dónde estamos|Proyectos activos', areas=['trabajo','personal'],
    proj='proyectos', archive='archivo', logf='bitacora.md', mem='memoria/MEMORY.md', other='otras-areas',
    head='ESTADO DEL ENTORNO (generado al abrir la sesión, {t})', lastlog='## Última entrada de cada bitácora activa',
    nolog='- (ningún proyecto con bitácora todavía)', memn='Memoria automática: {n} recuerdos en memoria/MEMORY.md (ya cargados).', mem0='Memoria automática: vacía todavía.',
    greet='Saluda con este estado en dos líneas y pregunta por dónde seguimos. No afirmes nada que no esté aquí o en los archivos.',
-   first=('memoria/sesion-de-inicio.md', 'empezar completado', 'La primera sesión guiada todavía no se ha hecho. Con lo primero que escriba la persona (aunque sea solo hola), arranca /aios-es:empezar de una vez, sin preguntar.'),
    logmsg='Antes de cerrar: hubo cambios en {p} y su bitacora.md es más antigua que esos cambios. Añade una línea con fecha: qué se hizo y qué se decidió. Si bitacora.md no existe, créala.',),
 }
 
@@ -82,11 +80,7 @@ def state(root, t, inp):
         n = sum(1 for l in mem.read_text(encoding='utf-8').splitlines() if l.startswith('- '))
         out.append(t['memn'].format(n=n))
     else: out.append(t['mem0'])
-    # On Windows `aios` opens Claude Code with no first message (one hides the status line there, 2026-10-16),
-    # so the first session starts from whatever the person types first. On the Mac aios sends it already.
-    mark, done, first = t['first']
-    started = (root/mark).is_file() or (pri.is_file() and done in pri.read_text(encoding='utf-8'))
-    out += ['', t['greet'] if started else first]
+    out += ['', t['greet']]
     print('\n'.join(out))
     return 0
 
