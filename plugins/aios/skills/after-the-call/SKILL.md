@@ -24,7 +24,7 @@ Say in one line that you'll set this up once, then ask one question at a time:
    - If there is no connection, agree on the manual route: they copy the transcript from the
      app and paste it here, or save the file into the project's `inputs/` folder. Show them the
      exact steps for their app, short. If all they have is the audio or video, they save it in
-     `inputs/` and you transcribe it on the Mac: `ffmpeg -y -i <file> -ar 16000 -ac 1 /tmp/aios-audio.wav`, then
+     `inputs/` and you transcribe it on this computer: `ffmpeg -y -i <file> -ar 16000 -ac 1 /tmp/aios-audio.wav`, then
      `whisper-cli -m ~/.cache/whisper-models/ggml-small.bin -l auto -otxt -of /tmp/aios-audio -f /tmp/aios-audio.wav`.
    - With nothing recorded, the route is: right after the call, they talk for two minutes about
      what happened (dictation works) and you work from that.

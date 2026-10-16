@@ -18,7 +18,7 @@ report.
   and read the .vtt it writes (ignore the timing lines). If there is no transcript, download the
   audio (`yt-dlp -x --audio-format mp3 -o "/tmp/aios-%(id)s.%(ext)s" <url>`) and transcribe it as below.
 - **An audio or video file** (a voice memo, a Zoom recording, a podcast episode): transcribe it
-  on the Mac. `ffmpeg -y -i <file> -ar 16000 -ac 1 /tmp/aios-audio.wav`, then
+  on this computer. `ffmpeg -y -i <file> -ar 16000 -ac 1 /tmp/aios-audio.wav`, then
   `whisper-cli -m ~/.cache/whisper-models/ggml-small.bin -l auto -otxt -of /tmp/aios-audio -f /tmp/aios-audio.wav`,
   and read `/tmp/aios-audio.txt`. A long recording takes a while: say so before you start.
 - **A text file or pasted text:** use it as it is.

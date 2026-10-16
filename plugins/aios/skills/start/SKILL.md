@@ -78,15 +78,16 @@ and that there are two ways; they choose, and they can use both. The tools they 
 - **Standard**: the connections of their Claude account (Gmail, Google Calendar, Google Drive and
   others). Pros: two minutes, and they also work in the Claude app and on their phone. Limits: one
   Google account per service, and email doesn't handle attachments.
-- **Advanced**: connections installed on this Mac, the same ones Santiago uses. Pros: several
+- **Advanced**: connections installed on this computer, the same ones Santiago uses. Pros: several
   accounts at once (for example personal and work email), email drafts with formatting and
   attachments, and editing Google Docs and Sheets. Limits: it needs a Google Cloud project created
   with their account, about 30 to 60 minutes, done with Santiago in a session; they only work on
-  this Mac.
+  this computer.
 
 Ask which one they want, or whether to leave it for later. Then:
-- **Standard, now**: don't ask them to go find the page: open it yourself with
-  `open "https://claude.ai/customize/connectors"`. There they click the **+** next to the service
+- **Standard, now**: don't ask them to go find the page: open it yourself
+  (on a Mac with `open "https://claude.ai/customize/connectors"`, on Windows with
+  `explorer.exe "https://claude.ai/customize/connectors"`). There they click the **+** next to the service
   and sign in with their account. Tell them plainly that a new connection only shows up in a new
   session. Before they leave, write "Resume /aios:start at part 5, voice" in
   `context/priorities.md`, under Pending; then they type `/exit` and `aios` again. When they're
@@ -107,9 +108,9 @@ Then voice:
 ## 6. How this works
 
 Tell them in seven sentences, no more:
-- Everything lives in one folder called AIOS. To open it, click the AIOS folder in the Dock, at
-  the bottom of the screen next to the Trash, or just ask you: "open my folder" (then run
-  `open .`). Nothing of theirs is stored out of sight.
+- Everything lives in one folder called AIOS. To open it, click the AIOS folder in the Dock (Mac), at
+  the bottom of the screen next to the Trash, or in Quick access in File Explorer (Windows), or just ask you: "open my folder" (then run
+  `open .` on a Mac or `explorer.exe .` on Windows). Nothing of theirs is stored out of sight.
 - `context/` is who they are; `work/` is their work; `personal/` is theirs if they want it.
 - Each job is a folder inside `work/projects/`; when it ends, they drag it to `archive/`.
 - When they correct you, you will propose a rule and they decide whether it is kept. The rules
@@ -150,7 +151,7 @@ Tell them in seven sentences, no more:
    ```
 3. Add the key `autoMemoryDirectory` to `.claude/settings.json` (the one in this folder), with the
    absolute path of this workspace's `memory/` folder (work it out from the current folder, with
-   `pwd` in Terminal), if it isn't there already. Edit only that key and leave everything else untouched. Explain in one sentence that this keeps
+   `pwd` in the terminal; on Windows write it with the drive letter, for example `C:/Users/name/AIOS/memory`), if it isn't there already. Edit only that key and leave everything else untouched. Explain in one sentence that this keeps
    your notes inside their folder instead of hidden, and that it takes effect the next time they
    open the workspace.
 4. Say goodbye in three lines: what is ready, what is worth having at hand for the next session

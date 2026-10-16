@@ -38,13 +38,29 @@ const T = {
 } as const
 const tr = (k: keyof typeof T, lang: Lang) => T[k][lang]
 
+// The person's home folder. A Mac working folder under /Users/<name> gives /Users/<name>; a Windows one
+// (C:\Users\<name>\...) gives USERPROFILE, or that folder when the variable is not readable; anywhere else HOME.
+async function homeDir($: EngineInterface): Promise<string> {
+  const cwd = await $.session.cwd()
+  const parts = cwd.split(/[\\/]/)
+  const env = async (k: 'HOME' | 'USERPROFILE') => {
+    try { return String((k === 'HOME' ? await $.env.get('HOME') : await $.env.get('USERPROFILE')) ?? '').replace(/[\\/]+$/, '') } catch { return '' }
+  }
+  if (cwd.startsWith('/')) {
+    if (parts[1] === 'Users' && parts[2]) return '/Users/' + parts[2]
+    return await env('HOME')
+  }
+  const win = /^[A-Za-z]:$/.test(parts[0]) && parts[1] === 'Users' && parts[2] ? parts[0] + '\\Users\\' + parts[2] : ''
+  return (await env('USERPROFILE')) || win || (await env('HOME'))
+}
+
 async function langOf($: EngineInterface): Promise<Lang> {
   if (LANG) return LANG
   let lang: Lang = 'en'
   try {
-    const parts = (await $.session.cwd()).split('/')
-    if (parts[1] === 'Users' && parts[2]) {
-      const j = JSON.parse(await $.fs.read('/Users/' + parts[2] + '/.aios/installed.json'))
+    const home = await homeDir($)
+    if (home) {
+      const j = JSON.parse(await $.fs.read(home + '/.aios/installed.json'))
       if (j && j.lang === 'es') lang = 'es'
     }
   } catch { /* no install record: English */ }
@@ -66,7 +82,7 @@ const narrating = new Set<string>()
 type Hunk = { oldStart: number; oldLines: number; newStart: number; newLines: number; lines: string[] }
 type FileChange = { file: string; added: number; removed: number; diff: string; verb: string }
 
-const baseName = (path: string) => path.split('/').filter(Boolean).pop() ?? path
+const baseName = (path: string) => path.split(/[\\/]/).filter(Boolean).pop() ?? path
 const cut = (text: string, n: number) => (text.length > n ? text.slice(0, n - 1) + '…' : text)
 const oneLine = (text: string) => text.replace(/\s+/g, ' ').trim()
 

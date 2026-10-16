@@ -16,11 +16,26 @@ const HISTORY_CHARS = 6000
 const messages = atom({ plugin: 'aios-side-chat-es', key: 'messages' } as const, [] as SideMessage[])
 const busy = atom({ plugin: 'aios-side-chat-es', key: 'busy' } as const, false)
 
+// The person's home folder. A Mac working folder under /Users/<name> gives /Users/<name>; a Windows one
+// (C:\Users\<name>\...) gives USERPROFILE, or that folder when the variable is not readable; anywhere else HOME.
+async function homeDir($: EngineInterface): Promise<string> {
+  const cwd = await $.session.cwd()
+  const parts = cwd.split(/[\\/]/)
+  const env = async (k: 'HOME' | 'USERPROFILE') => {
+    try { return String((k === 'HOME' ? await $.env.get('HOME') : await $.env.get('USERPROFILE')) ?? '').replace(/[\\/]+$/, '') } catch { return '' }
+  }
+  if (cwd.startsWith('/')) {
+    if (parts[1] === 'Users' && parts[2]) return '/Users/' + parts[2]
+    return await env('HOME')
+  }
+  const win = /^[A-Za-z]:$/.test(parts[0]) && parts[1] === 'Users' && parts[2] ? parts[0] + '\\Users\\' + parts[2] : ''
+  return (await env('USERPROFILE')) || win || (await env('HOME'))
+}
+
 // The assistant's own name, from the AIOS folder (context/assistant.md "Name: X" or contexto/asistente.md
 // "Nombre: X"); 'claude' until the client has chosen one.
 async function assistantName($: EngineInterface): Promise<string> {
-  const parts = (await $.session.cwd()).split('/')
-  const home = parts[1] === 'Users' && parts[2] ? '/Users/' + parts[2] : ''
+  const home = await homeDir($)
   for (const f of ['/AIOS/context/assistant.md', '/AIOS/contexto/asistente.md']) {
     try {
       const m = (await $.fs.read(home + f)).match(/^\*{0,2}(?:Name|Nombre)\*{0,2}:\*{0,2}\s*(.+)$/m)
