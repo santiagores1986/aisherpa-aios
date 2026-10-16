@@ -1,6 +1,6 @@
 ---
 name: think
-description: Think a problem through with a method before deciding. Five modes, the person picks one or you suggest one: first principles, devil's advocate, council of voices, ideas, deep dive. USE WHEN think, let's think this through, help me think, poke holes in this, give me ideas, look at this from several angles, I don't know what to decide, what do you think of this idea, I need another view.
+description: "Think a problem through with a method before deciding. Five modes, the person picks one or you suggest one: first principles, devil's advocate, council of voices, ideas, deep dive. USE WHEN think, let's think this through, help me think, poke holes in this, give me ideas, look at this from several angles, I don't know what to decide, what do you think of this idea, I need another view."
 argument-hint: "What do you want to think about? (and the mode, if you know it)"
 ---
 

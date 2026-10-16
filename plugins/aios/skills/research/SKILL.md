@@ -1,6 +1,6 @@
 ---
 name: research
-description: Research a topic with the triangulation technique: a good research prompt, the same question in two models, and a comparison of signal, complement and contradiction. USE WHEN research, look into this, I need to really understand this sector, company or question, do the research for me, find out everything about, I want to know if it's true that.
+description: "Research a topic with the triangulation technique: a good research prompt, the same question in two models, and a comparison of signal, complement and contradiction. USE WHEN research, look into this, I need to really understand this sector, company or question, do the research for me, find out everything about, I want to know if it's true that."
 argument-hint: "What do you want to research, and what for?"
 ---
 

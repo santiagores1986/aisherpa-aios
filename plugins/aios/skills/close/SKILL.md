@@ -1,6 +1,6 @@
 ---
 name: close
-description: Close the work session and leave a trace: logs up to date, priorities updated, rules proposed. USE WHEN close, let's close, that's it for today, we're done, I'm done for today, let's stop here, wrap up, end the session, save where we left off.
+description: "Close the work session and leave a trace: logs up to date, priorities updated, rules proposed. USE WHEN close, let's close, that's it for today, we're done, I'm done for today, let's stop here, wrap up, end the session, save where we left off."
 ---
 
 # /aios:close
