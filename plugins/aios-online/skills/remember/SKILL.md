@@ -1,0 +1,37 @@
+---
+name: remember
+description: "Change something about who they are, how they work, their business or their priorities: finds the right Google Doc in their AIOS folder, proposes the exact change and edits the Doc in place after their yes. USE WHEN remember, update my context, something changed, that's no longer true, note that, update my profile, fix what you know about me."
+---
+
+# remember
+
+Ask what changed, in one question (skip it if they already said). Then decide where it goes:
+- About them, how they learn and work: `about-me`.
+- How they want you to work and answer: `how-to-work-with-me` (a correction to your behavior goes
+  under "Learned rules" as `N. Never/Always X, because Y`).
+- Their practice, offers, clients: `my-business`.
+- What matters now: `priorities`.
+- How they write: `my-voice`.
+- Who you are and your name: `assistant`.
+
+## Their files
+Their context lives as **Google Docs in their own Google Drive**, in a folder called **AIOS**
+(My Drive → AIOS): `start-here`, `assistant`, `about-me`, `how-to-work-with-me`, `my-business`,
+`my-voice`, `priorities`, and the subfolders `playbooks`, `projects` and `notes`. Every project they
+make reads this same folder, so a change made in one project shows up in all of them.
+- **Read** with the Google Drive connector (search by title inside the AIOS folder they own) and the
+  Google Docs connector (read the document). Read `start-here` first; it says which file wins when two
+  disagree.
+- **Change** a Doc only after their yes: show the current text and the proposed text, one under the
+  other. Then edit that Doc in place with the Google Docs connector, changing only what they
+  confirmed, and set its `Last updated:` line (top of the Doc) to today's date. Read it back and
+  confirm in one line. Never make a copy, a download or a second version of a file that exists.
+- **New pages** (a playbook, a project brief, notes) are new Google Docs created in the right
+  subfolder of AIOS with the Google Drive connector. Give them the link.
+- If Google Drive or Google Docs isn't reachable, say so in one line and send them to Customize →
+  Connectors (the steps are in `its-broken`). Don't fall back to downloads.
+- The project's Library may hold old copies of these files. The Drive folder is the one that counts.
+
+Show the current paragraph and the proposed one, one under the other, and wait for their yes. Change
+only what they confirmed. If several Docs are affected, do them one at a time in this order. Finish in
+one line: which Doc changed, and that every project sees it from now on.
