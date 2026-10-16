@@ -17,6 +17,11 @@
       "description": "Rutinas, herramientas para pensar, estado de la sesión y bitácoras (español)"
     },
     {
+      "name": "aios-online",
+      "source": "./plugins/aios-online",
+      "description": "Your AI system in the Claude app: routines and thinking tools, with your context as Google Docs in your own Drive (English)"
+    },
+    {
       "name": "aios-quickbar",
       "source": "./plugins/aios-quickbar",
       "description": "Buttons above the prompt for your routines, plus an effort row"
