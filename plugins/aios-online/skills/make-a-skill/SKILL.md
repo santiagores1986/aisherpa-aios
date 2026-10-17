@@ -29,6 +29,9 @@ make reads this same folder, so a change made in one project shows up in all of 
   context, what a client said, their documents, notes about them) goes only in that client's or
   project's own folder, AIOS → projects → <name>, never in the shared Docs or in `notes`.
 - The project's Library may hold old copies of these files. The Drive folder is the one that counts.
+- **Dates** are their local date, never the computer's clock (it runs on UTC and can be a day ahead).
+  Use the time zone in `about-me` (a city or region counts: the Bay Area is Pacific time); if there is
+  none, ask once and save it in `about-me` after their yes.
 - Connecting an app (Gmail, Notion, a CRM...) is in **Customize → Connectors** (never "Settings"); a
   new connection reaches new threads, not the ones already open.
 
