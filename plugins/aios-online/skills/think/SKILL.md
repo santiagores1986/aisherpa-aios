@@ -8,7 +8,7 @@ argument-hint: "What do you want to think about? (and the mode, if you know it)"
 
 The person brings a problem, an idea or a decision. If they don't name a mode, pick the one that
 fits best and say so in one line. Everything happens in the conversation; no file is needed unless
-they ask to save the result (then save it as a new Google Doc in their AIOS folder, in `notes` (Google Drive connector), and give them the link).
+they ask to save the result (then save it as a new Google Doc in their AIOS folder, in `notes` (or, if it is about one of their clients, in that client's folder under AIOS → projects), with the Google Drive connector, and give them the link).
 
 ## Mode 1 · First principles
 
