@@ -27,12 +27,13 @@ research prompt in this shape, in English:
   from their work in the `my-business` Doc: who buys, who sells, how money is made in that world and
   what moves it.
 
-Show it in the chat and save it as a new Google Doc in their AIOS folder, in `notes` (Google Drive connector), and give them the link.
+Show it in the chat and save it as a new Google Doc in their AIOS folder, in `notes` (or, if it is about one of their clients, in that client's folder under AIOS → projects), with the Google Drive connector, and give them the link.
 
 ## Step 2 · Two runs
 
-Run the prompt yourself here, with web search, and save your report as a new Google Doc in their AIOS folder, in `notes` (Google Drive connector), and give them the link.
-Then ask the person to paste the same prompt into another AI assistant (ChatGPT, Gemini, whichever
+Run the prompt yourself here, with web search, and save your report as a new Google Doc in their AIOS folder, in `notes` (or, if it is about one of their clients, in that client's folder under AIOS → projects), with the Google Drive connector, and give them the link.
+Before they take the prompt to another AI, remove client names and any private detail unless they
+say it's fine. Then ask the person to paste the same prompt into another AI assistant (ChatGPT, Gemini, whichever
 they have at hand) and bring you the answer: pasted here or attached as a file. If there is only
 one report, say so and wait; don't triangulate with one.
 

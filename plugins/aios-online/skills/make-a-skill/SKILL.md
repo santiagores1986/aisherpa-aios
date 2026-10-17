@@ -24,6 +24,10 @@ make reads this same folder, so a change made in one project shows up in all of 
   subfolder of AIOS with the Google Drive connector. Give them the link.
 - If Google Drive or Google Docs isn't reachable, say so in one line and send them to Customize →
   Connectors (the steps are in `its-broken`). Don't fall back to downloads.
+- **Client material stays private.** Public facts about their practice (offers, testimonials they
+  publish) may go in `my-business`. Anything private about one of their clients (names in a coaching
+  context, what a client said, their documents, notes about them) goes only in that client's or
+  project's own folder, AIOS → projects → <name>, never in the shared Docs or in `notes`.
 - The project's Library may hold old copies of these files. The Drive folder is the one that counts.
 - Connecting an app (Gmail, Notion, a CRM...) is in **Customize → Connectors** (never "Settings"); a
   new connection reaches new threads, not the ones already open.

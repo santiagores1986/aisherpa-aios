@@ -24,6 +24,10 @@ make reads this same folder, so a change made in one project shows up in all of 
   subfolder of AIOS with the Google Drive connector. Give them the link.
 - If Google Drive or Google Docs isn't reachable, say so in one line and send them to Customize →
   Connectors (the steps are in `its-broken`). Don't fall back to downloads.
+- **Client material stays private.** Public facts about their practice (offers, testimonials they
+  publish) may go in `my-business`. Anything private about one of their clients (names in a coaching
+  context, what a client said, their documents, notes about them) goes only in that client's or
+  project's own folder, AIOS → projects → <name>, never in the shared Docs or in `notes`.
 - The project's Library may hold old copies of these files. The Drive folder is the one that counts.
 - Connecting an app (Gmail, Notion, a CRM...) is in **Customize → Connectors** (never "Settings"); a
   new connection reaches new threads, not the ones already open.
@@ -34,30 +38,37 @@ already says); each correction becomes an exact proposed change, written after t
 time; plain words. They may dictate by voice: read the intent, not the typos. Address them by their
 first name (it's in `about-me`).
 
-## Where we are
-Before anything else (after their files exist), read the "Where we are" section of `priorities`
-(right under its "Last updated" line). If it says the first session was paused at a part, welcome them back in one line and
-resume at that part. If it says the first session was completed, don't repeat it: ask in one line
-what they'd like to do (go over one part again, or start their first project).
-When they say "pause", write the line "- First session paused at part N (name),
-YYYY-MM-DD." into that section of `priorities` (create it right under "Last updated" if needed, replacing an
-older paused line), confirm in one line where you'll pick up, and stop.
+## Setup status
+The first session's progress lives in one line of the `assistant` Doc, right under `Name:`:
+`First session: paused at part N (name), YYYY-MM-DD` or `First session: completed YYYY-MM-DD`.
+Nothing else writes that line (`close` uses `priorities`, never this line).
+- Before anything else (after their files exist), read it. Paused: welcome them back in one line and
+  resume at that part. Completed: don't repeat the session; ask in one line what they'd like (go over
+  one part again, or start their first project). Missing: this is the first time.
+- Saying "pause" is their yes to saving that checkpoint, and only that: write or replace the line as
+  `First session: paused at part N (name), YYYY-MM-DD`, confirm in one line where you'll pick up, stop.
 
 ## 0. Their files (first time only)
 1. Check you have both Google connectors: search Drive for anything, and confirm you can read Google
    Docs. If either is missing, stop and tell them in three lines: open Customize → Connectors, connect
    Google Drive and Google Docs (each asks Google for permission once), then start a new thread here
    and say "start" again.
-2. Look for a folder named **AIOS** that they own in My Drive (`title = 'AIOS'`, folder, `owner = 'me'`).
-   If it exists and has `start-here` inside, skip to 1.
-3. Otherwise find the folder shared with them whose title contains **AIOS starter files**
-   (`sharedWithMe = true`). If it isn't there, tell them in two lines: open the folder link from the
-   AI Sherpa email once, signed in to the same Google account they connected, then say "start" again.
-4. Say in one line what you're doing ("I'm copying your starter files into a new AIOS folder in your
-   Drive, so they're yours"). Then: create the folder **AIOS** in My Drive; inside it create
-   `playbooks`, `projects` and `notes`; copy every Doc in the starter folder into AIOS with the same
-   title (no "Copy of"), and the Docs in its `playbooks` subfolder into AIOS → playbooks.
-5. List what is now in AIOS and check every starter Doc arrived. Tell them: "Your files are in Google
+2. Find their own copy first, anywhere in their Drive: folders they own titled **AIOS** (folder,
+   `owner = 'me'`), and also any Doc they own titled `start-here` (its parent folder counts, in case
+   they renamed or moved it). One match: that is their AIOS folder. Several: list them (name, where,
+   last changed) and ask which one is theirs; never pick one yourself.
+3. Find the starter folder shared with them: title contains **AIOS starter files**
+   (`sharedWithMe = true`). It holds the full list of starter Docs (and a `playbooks` subfolder).
+   If they have no AIOS folder yet and the starter folder isn't there, tell them in two lines: open
+   the folder link from the AI Sherpa email once, signed in to the same Google account they
+   connected here, then say "start" again.
+4. Compare: if their AIOS folder exists and already has every starter Doc and the three subfolders
+   (`playbooks`, `projects`, `notes`), go to 1. Otherwise say in one line what you're doing ("I'm
+   copying your starter files into an AIOS folder in your Drive, so they're yours") and fill only
+   the gaps: create AIOS in My Drive only if they have none; create a missing subfolder; copy each
+   missing starter Doc with the same title (no "Copy of"), playbook Docs into AIOS → playbooks.
+   Never overwrite or duplicate a Doc that is already there: it may hold their edits.
+5. List what is now in AIOS and check every starter Doc is there. Tell them: "Your files are in Google
    Drive → My Drive → AIOS. They're yours now; the shared starter folder stays as it was." Then go on.
 
 ## 1. Welcome
@@ -109,7 +120,7 @@ Eight sentences at most:
 - Nothing goes out to anyone without their approval.
 
 ## Closing
-Update `priorities` (after their yes): in the "Where we are" section (right under "Last updated"), replace any paused
-line with "- First session completed on YYYY-MM-DD. Assistant named: N. Next: X." Apply any other correction
-they confirmed, Doc by Doc. Say goodbye in three lines: what's ready, what to have at hand next time,
+After their yes: set the setup line in `assistant` to `First session: completed YYYY-MM-DD`, and in
+`priorities` write the "Where we are" section (right under "Last updated", replacing the old one) as
+"- First session done YYYY-MM-DD. Next: X." Apply any other correction they confirmed, Doc by Doc. Say goodbye in three lines: what's ready, what to have at hand next time,
 and "I'm here when you want to start the first project."
