@@ -14,7 +14,7 @@ They're not an engineer. Find what broke, explain it plainly, and fix what's saf
    - **Plugin:** can you see the AI Sherpa commands (`/aios-online:start`, `/aios-online:remember`...)?
      If not: Customize → Plugins (on the chat side of the app, the speech-bubble icon) → Yours → check that
      **Aios online** is there. If it isn't, add it again: Add → Add marketplace → Add from a repository →
-     `santiagores1986/aisherpa-aios` → Sync → Aios online → Add.
+     `santiagores1986/aisherpa-online` → Sync → Aios online → Add.
    - **Google Drive:** can you search their Drive? **Google Docs:** can you read a Doc? A missing one:
      Customize → Connectors → Google Drive or Google Docs → Connect, accept Google's screen. A new
      connection only reaches new threads: start a new one.
@@ -22,7 +22,7 @@ They're not an engineer. Find what broke, explain it plainly, and fix what's saf
      inside? If it's missing or moved, find it (search by title) and tell them where it is; never
      recreate files that might exist elsewhere.
    - **Out of date?** Our commands get better over time, and updates don't always arrive on their own:
-     Customize → Plugins → Add → Manage marketplaces → the ⋮ next to aisherpa-aios → Check for updates.
+     Customize → Plugins → Add → Manage marketplaces → the ⋮ next to aisherpa-online → Check for updates.
    - **Anthropic:** check status.anthropic.com for an outage.
 3. Explain in three short parts: what broke, why (say when you're guessing), what still works.
 4. Walk them through the fix step by step, one step at a time. Anything you can't fix: write a short

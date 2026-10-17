@@ -1,6 +1,6 @@
 {
   "name": "aios-online",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Your AI system in the Claude app, by AI Sherpa: first session, close, remember, new project, it's broken, and thinking tools (research, think, teach, humanize, bro, wait what, make a skill, after the call, extract wisdom). Your context lives as Google Docs in your own Drive.",
   "author": {
     "name": "AI Sherpa",
