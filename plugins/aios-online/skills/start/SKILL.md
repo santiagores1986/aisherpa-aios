@@ -38,17 +38,22 @@ already says); each correction becomes an exact proposed change, written after t
 time; plain words. They may dictate by voice: read the intent, not the typos. Address them by their
 first name (it's in `about-me`).
 
+## Always first: check their files
+Every time `start` runs, do step 0 below, in full, before anything else, even if project memory, an
+earlier thread or a note says the files are already in place. Memory is not proof: list the starter
+folder and their AIOS folder now, title by title.
+
 ## Setup status
 The first session's progress lives in one line of the `assistant` Doc, right under `Name:`:
 `First session: paused at part N (name), YYYY-MM-DD` or `First session: completed YYYY-MM-DD`.
 Nothing else writes that line (`close` uses `priorities`, never this line).
-- Before anything else (after their files exist), read it. Paused: welcome them back in one line and
+- Right after step 0, read it. Paused: welcome them back in one line and
   resume at that part. Completed: don't repeat the session; ask in one line what they'd like (go over
   one part again, or start their first project). Missing: this is the first time.
 - Saying "pause" is their yes to saving that checkpoint, and only that: write or replace the line as
   `First session: paused at part N (name), YYYY-MM-DD`, confirm in one line where you'll pick up, stop.
 
-## 0. Their files (first time only)
+## 0. Their files (every time)
 1. Check you have both Google connectors: search Drive for anything, and confirm you can read Google
    Docs. If either is missing, stop and tell them in three lines: open Customize → Connectors, connect
    Google Drive and Google Docs (each asks Google for permission once), then start a new thread here
