@@ -77,13 +77,18 @@ def state(root, t, inp):
     out = [t['head'].format(t=datetime.datetime.now().strftime('%Y-%m-%d %H:%M'))]
     pri = root/t['ctx']/t['pri']
     if pri.is_file():
-        grab = False
+        # A section that appears twice is shown once, merged (aios-es 1.2.12 could add a second
+        # "Proyectos activos"); its "None yet" line goes once real lines are there.
+        secs, cur = {}, None
         for l in pri.read_text(encoding='utf-8').splitlines():
             if l.startswith('## '):
-                grab = bool(re.search(t['where'], l))
-                if grab: out += ['', l]
+                cur = l.strip() if re.search(t['where'], l) else None
+                if cur: secs.setdefault(cur, [])
                 continue
-            if grab and l.strip(): out.append(l)
+            if cur and l.strip() and l not in secs[cur]: secs[cur].append(l)
+        for h, lines in secs.items():
+            real = [l for l in lines if not re.match(r'^-?\s*(None yet|Ninguno todavía)', l.strip())]
+            out += ['', h] + (real or lines)
     out += ['', t['lastlog']]
     anyl = False
     for label, d in projects(root, t):

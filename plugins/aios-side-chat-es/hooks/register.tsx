@@ -77,10 +77,10 @@ async function ask($: EngineInterface, question: string) {
   try {
     const r = await $.model.fork({ prompt: buildPrompt(history, q) })
     if (r.isAnswered) answer = { who: 'claude', text: r.text.trim() }
-    else if (r.reason === 'nothing-to-fork') answer = { who: 'note', text: 'Nothing to ask about yet: the main chat needs at least one reply first.' }
-    else answer = { who: 'note', text: `No answer (${r.reason}). Try again.` }
+    else if (r.reason === 'nothing-to-fork') answer = { who: 'note', text: 'Todavía no hay nada sobre qué preguntar: el chat principal necesita al menos una respuesta primero.' }
+    else answer = { who: 'note', text: `Sin respuesta (${r.reason}). Inténtalo otra vez.` }
   } catch (err) {
-    answer = { who: 'note', text: `No answer: ${err instanceof Error ? err.message : String(err)}` }
+    answer = { who: 'note', text: `Sin respuesta: ${err instanceof Error ? err.message : String(err)}` }
   }
   await update($, messages, list => [...list, answer].slice(-MAX_KEPT))
   await update($, busy, () => false)
@@ -93,7 +93,7 @@ async function sendToMain($: EngineInterface, index: number) {
   const a = list[index]
   const q = [...list.slice(0, index)].reverse().find(m => m.who === 'you')
   if (!a) return
-  const text = `From my side chat: I asked: "${q?.text ?? ''}" and you answered: "${a.text}". Let's act on this.`
+  const text = `Desde mi chat al lado: pregunté «${q?.text ?? ''}» y respondiste «${a.text}». Hagamos algo con esto.`
   await $.prompt.submit({ text, asUser: true })
   $.ui.toast('Enviado al chat principal')
 }
@@ -118,13 +118,14 @@ export const register: Register = on => {
   // The side chat's own button above the prompt. It has to be this mod's own press: the engine places a
   // pane at any width only when the person's command or press is behind it, and a press in another mod
   // (the quickbar) does not count, so from there the pane waited unseen below 144 columns (2026-10-18).
+  // A blank line above sets it apart from whatever row sits over it (the effort row, on the Windows test).
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     const theirs = await next(e)
     const { Box, Button } = $.ui.resolve(e)
     return (
       <Box flexDirection="column">
         {theirs}
-        <Box key="side-row" flexDirection="row">
+        <Box key="side-row" flexDirection="row" marginTop={1}>
           <Box key="side-btn-bg" backgroundColor="#3a4052" flexShrink={0}>
             <Button key="side-open" plain label=" Chat al lado " hover={{ bold: true, color: '#ffd84d', backgroundColor: '#5a4712' }} onPress={() => void open($)} />
           </Box>
