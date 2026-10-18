@@ -26,6 +26,7 @@ pueden romperse juntas tras una actualización.
 | Mods dibujados | Pregunta si se ven los botones sobre donde se escribe (la barra rápida) | Todos los mods desaparecen a la vez con la validación en orden: los mods están apagados o cambiaron del lado de Anthropic |
 | Barra de estado | `echo '{}' \| python3 ~/.aios/statusline.py` | Salida con error, o `python3` no encontrado |
 | Configuración | Lee `.claude/settings.json` de la carpeta y `~/.claude/settings.json`; comprueba que sean JSON válido | Un archivo que no se puede leer, o una ruta de la barra de estado que no existe |
+| Tus archivos | En la carpeta de AIOS (donde está `CLAUDE.md`), comprueba que exista cada uno: `CLAUDE.md`, `AGENTS.md`, `contexto/usuario.md`, `contexto/asistente.md`, `contexto/prioridades.md`, `contexto/voz.md`, `trabajo/empresa.md` | Falta un archivo. Di cuál, en palabras simples («tu archivo de voz, contexto/voz.md, ya no está»), búscalo (Mac: `mdfind -name <archivo>` y `ls ~/.Trash`; Windows: la Papelera de reciclaje) y ofrece devolverlo a su lugar. Si no aparece, ofrece reconstruirlo juntos; nunca inventes lo que tenía |
 | Herramientas de Windows (solo en Windows) | `claude --version`, `python3 --version`, `git --version`; Warp aparece en el menú Inicio | Cualquier «command not found»: falta una herramienta en la ruta. Cerrar y abrir Warp otra vez suele arreglarlo; si no, hay que volver a correr el instalador de AIOS |
 | Archivos en todo el computador (solo en Mac; en Windows no existe el Acceso total al disco) | `ls ~/Desktop ~/Documents ~/Downloads >/dev/null` | «Operation not permitted»: Warp no tiene Acceso total al disco. Guía a la persona por menú de Apple → Configuración del Sistema → Privacidad y seguridad → Acceso total al disco → activar Warp (o `open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"`), y luego cerrar y abrir Warp otra vez |
 | Apps conectadas | `claude mcp list` | Un conector marcado como fallido o que pide iniciar sesión |
@@ -55,4 +56,5 @@ Tres partes cortas, en palabras sencillas:
 
 - Nunca borres archivos para «reiniciar» algo.
 - Nunca apagues los permisos para que algo funcione.
+- Un archivo que falta es un hallazgo aunque la instalación sea nueva: nómbralo, nunca lo expliques como «todavía no está configurado».
 - Si todo está en orden, dilo con claridad y pídele que te muestre el problema mientras ocurre.

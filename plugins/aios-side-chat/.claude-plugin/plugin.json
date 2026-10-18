@@ -1,6 +1,6 @@
 {
   "name": "aios-side-chat",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A side chat in its own pane: ask about the main conversation without adding to it",
   "author": {
     "name": "AI Sherpa"

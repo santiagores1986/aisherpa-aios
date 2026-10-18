@@ -23,6 +23,7 @@ Run each check, note what it returns, and move on. Don't stop at the first probl
 | Mods drawn | Ask whether the quickbar (buttons above the prompt) shows | Every mod gone at once, with validation passing: mods are switched off or changed on Anthropic's side |
 | Status line | `echo '{}' \| python3 ~/.aios/statusline.py` | Error output, or `python3` not found |
 | Settings | Read `.claude/settings.json` in the folder and `~/.claude/settings.json`; check they are valid JSON | A file that does not parse, or a status line path that does not exist |
+| Your files | In the AIOS folder (where `CLAUDE.md` is), check that each exists: `CLAUDE.md`, `AGENTS.md`, `context/about-me.md`, `context/assistant.md`, `context/priorities.md`, `context/voice.md`, `work/business.md` | A missing file. Say which one, plainly ("your voice file, context/voice.md, is gone"), look for it (Mac: `mdfind -name <file>` and `ls ~/.Trash`; Windows: the Recycle Bin) and offer to put it back where it was. If it can't be found, offer to rebuild it together; never invent its contents |
 | Windows tools (Windows only) | `claude --version`, `python3 --version`, `git --version`; Warp is in the Start menu | Any "command not found": a tool is missing from the path. Closing and reopening Warp often fixes it; if not, the AIOS installer needs to run again |
 | Files anywhere (Mac only; Windows has no Full Disk Access step) | `ls ~/Desktop ~/Documents ~/Downloads >/dev/null` | "Operation not permitted": Warp lacks Full Disk Access. Walk them through Apple menu → System Settings → Privacy & Security → Full Disk Access → turn on Warp (or `open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"`), then quit and reopen Warp |
 | Connected apps | `claude mcp list` | A connector marked failed or needing login |
@@ -45,4 +46,5 @@ Three short parts, in plain words:
 
 - Never delete files to "reset" anything.
 - Never turn off permission settings to make something work.
+- A missing file is a finding even on a new install: name it, never explain it away as "not set up yet".
 - If everything checks out, say so plainly and ask them to show you the problem happening.

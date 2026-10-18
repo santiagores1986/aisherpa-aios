@@ -62,7 +62,9 @@ export const buildPrompt = (history: SideMessage[], question: string) => {
 }
 
 async function open($: EngineInterface) {
-  await $.ui.open({ id: PANE, title: 'Chat al lado', focus: true, closeOnEscape: true })
+  const placed = await $.ui.open({ id: PANE, title: 'Chat al lado', focus: true, closeOnEscape: true })
+  // A narrow window has no room for the pane: say so instead of drawing nothing
+  if (placed && placed.isPlaced === false) $.ui.toast('El chat al lado necesita una ventana más ancha: agranda Warp o ponlo en pantalla completa y vuelve a presionar Chat al lado.')
 }
 
 async function ask($: EngineInterface, question: string) {

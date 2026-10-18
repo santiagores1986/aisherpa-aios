@@ -62,7 +62,9 @@ export const buildPrompt = (history: SideMessage[], question: string) => {
 }
 
 async function open($: EngineInterface) {
-  await $.ui.open({ id: PANE, title: 'Side chat', focus: true, closeOnEscape: true })
+  const placed = await $.ui.open({ id: PANE, title: 'Side chat', focus: true, closeOnEscape: true })
+  // A narrow window has no room for the pane: say so instead of drawing nothing
+  if (placed && placed.isPlaced === false) $.ui.toast('The side chat needs a wider window: make Warp wider or full screen, then press Side chat again.')
 }
 
 async function ask($: EngineInterface, question: string) {
