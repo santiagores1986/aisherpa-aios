@@ -99,6 +99,14 @@ const ANSI = ['#1e1e2e', '#ff6b7a', '#7ee0a8', '#f5c96a', '#7aa8ff', '#c49bff', 
 
 export type Span = { text: string; fg?: string; bg?: string; bold?: boolean; italic?: boolean; underline?: boolean; dim?: boolean }
 
+// The standard xterm colours 16-255: a 6x6x6 cube, then 24 greys
+const xterm256 = (n: number) => {
+  const hx = (v: number) => v.toString(16).padStart(2, '0')
+  if (n >= 232) { const g = 8 + (n - 232) * 10; return '#' + hx(g) + hx(g) + hx(g) }
+  const lv = [0, 95, 135, 175, 215, 255], c = n - 16
+  return '#' + hx(lv[Math.floor(c / 36)]) + hx(lv[Math.floor(c / 6) % 6]) + hx(lv[c % 6])
+}
+
 // Turn ANSI-coloured lines into spans the pane can draw
 export const spansOf = (line: string): Span[] => {
   const out: Span[] = []
@@ -127,8 +135,9 @@ export const spansOf = (line: string): Span[] => {
         st = c === 38 ? { ...st, fg: hex } : { ...st, bg: hex }
         i += 4
       } else if ((c === 38 || c === 48) && codes[i + 1] === 5) {
+        // Glow on Windows writes 256-colour codes (Mac Glow writes the 16 basic ones)
         const n = codes[i + 2]
-        const hex = n < 16 ? ANSI[n] : undefined
+        const hex = n < 16 ? ANSI[n] : n <= 255 ? xterm256(n) : undefined
         if (hex) st = c === 38 ? { ...st, fg: hex } : { ...st, bg: hex }
         i += 2
       } else if (c === 39) st = { ...st, fg: undefined }
@@ -215,14 +224,23 @@ async function glowLines($: EngineInterface, path: string, width: number): Promi
   const hit = glowCache.get(key)
   if (hit) return hit
   try {
-    const r = await $.process.run([bin, '-s', 'dark', '-w', String(Math.max(40, width - 2)), path], {
-      env: (await isWindows($))
-        ? { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color' }
-        : { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color', PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin' },
-      timeoutMs: 8000,
-    })
+    const w = String(Math.max(40, width - 2))
+    // Glow 3.0.0 on Windows prints two empty lines for any file path (found 2026-10-17), so it gets the text on stdin there
+    const r = (await isWindows($))
+      ? await $.process.run([bin, '-s', 'dark', '-w', w, '-'], {
+          env: { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color' },
+          stdin: await $.fs.read(path),
+          timeoutMs: 8000,
+        })
+      : await $.process.run([bin, '-s', 'dark', '-w', w, path], {
+          env: { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color', PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin' },
+          timeoutMs: 8000,
+        })
     if (r.exitCode !== 0) return null
-    const lines = withRowDividers(String(r.stdout ?? '').replace(/\n+$/, '').split('\n'))
+    const out = String(r.stdout ?? '').replace(/\r/g, '')
+    // Empty output means Glow failed quietly: draw the document ourselves instead of a blank pane
+    if (!out.trim()) return null
+    const lines = withRowDividers(out.replace(/\n+$/, '').split('\n'))
     glowCache.clear()
     glowCache.set(key, lines)
     return lines

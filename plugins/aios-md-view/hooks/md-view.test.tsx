@@ -87,6 +87,32 @@ test('Glow colours become spans; padding at the end is dropped', async () => {
   expect(sp).toEqual([{ text: '## Summary', fg: '#9cc0ff', bold: true }])
 })
 
+test('Windows Glow 256-colour codes and bare resets become spans', async () => {
+  const sp = spansOf('\x1b[38;5;228;48;5;63;1m Hi \x1b[m\x1b[38;5;39;1m## Sub\x1b[m\x1b[38;5;252m body\x1b[m')
+  expect(sp).toEqual([
+    { text: ' Hi ', fg: '#ffff87', bg: '#5f5fff', bold: true },
+    { text: '## Sub', fg: '#00afff', bold: true },
+    { text: ' body', fg: '#d0d0d0' },
+  ])
+})
+
+test('on Windows Glow gets the document on stdin, not as a path', async ($, on) => {
+  const runs: any[] = []
+  on('ui.open', async () => ({ value: { isPlaced: true } }))
+  on('ui.scroll', async () => ({ value: {} }))
+  on('fs.read', async () => ({ value: '# Hola' }))
+  on('fs.stat', async () => ({ value: { mtimeMs: 7, size: 6, kind: 'file' } }))
+  on('session.cwd', async () => ({ value: 'C:\\Users\\x\\AIOS' }))
+  on('process.run', async (_: any, req: any) => { runs.push(req); return { value: { exitCode: 0, stdout: '\x1b[38;5;39;1mHola\x1b[m', stderr: '' } } })
+  await $.command.run({ command: 'view', args: 'C:\\Users\\x\\AIOS\\a.md' })
+  const ui = await $.ui.mount({ plugin: 'aios-md-view', surface: 'terminal', component: 'Pane', requestId: 'md-view', props: { title: 'a.md', isFocused: true, bodyColumns: 80 } } as any)
+  expect(await ui.find({ type: 'Text', text: /Hola/ })).toBeDefined()
+  const glow = runs.map(r => JSON.stringify(r)).find(s => s.includes('"-s"'))
+  expect(glow).toContain('"-"')
+  expect(glow).toContain('# Hola')
+  await ui.unmount()
+})
+
 test('the pane draws Glow output when Glow is there', async ($, on) => {
   on('ui.open', async () => ({ value: { isPlaced: true } }))
   on('ui.scroll', async () => ({ value: {} }))
