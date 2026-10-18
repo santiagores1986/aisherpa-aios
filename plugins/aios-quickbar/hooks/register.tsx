@@ -37,13 +37,19 @@ const effortChoice = atom({ plugin: 'aios-quickbar', key: 'effortChoice' } as co
 // What Claude Code itself asked for on the last request, before any override, for the auto label
 const sessionEffort = atom({ plugin: 'aios-quickbar', key: 'sessionEffort' } as const, '')
 
+// Commands the AIOS mods register themselves. The command list may not report them under these
+// names (Windows test 2026-10-18: "Chat al lado" was typed as text and the pane never opened),
+// so they always run as commands.
+const MOD_COMMANDS = new Set(['side', 'view', 'activity', 'changes', 'quickbar'])
+
 // Send a button's text: a slash command runs as a command when Claude Code knows it,
 // otherwise the text goes in as if you typed it
 async function send($: EngineInterface, text: string) {
   const m = /^\/([\w:-]+)\s*(.*)$/.exec(text.trim())
   if (m) {
     try {
-      const known = (await $.command.list()).some((c: { name: string }) => c.name === m[1])
+      const known = MOD_COMMANDS.has(m[1]) ||
+        (await $.command.list()).some((c: { name: string }) => c.name === m[1] || c.name.endsWith(':' + m[1]))
       if (known) {
         await $.command.run({ command: m[1], args: m[2] })
         return
@@ -147,13 +153,14 @@ export const register: Register = on => {
       <Box flexDirection="column">
         {theirs}
         <Text color="#3a4052">{'─'.repeat(Math.max(10, cols))}</Text>
-        <Box key="quickbar-row" flexDirection="row" columnGap={2}>
+        {/* Buttons move to a new line whole when the window is narrow, never break mid-word (Windows test 2026-10-18) */}
+        <Box key="quickbar-row" flexDirection="row" flexWrap="wrap" columnGap={2}>
           {list.map(b => (
-            <Box key={'qb-' + b.id} backgroundColor="#3a4052">
+            <Box key={'qb-' + b.id} backgroundColor="#3a4052" flexShrink={0}>
               <Button key={'qbtn-' + b.id} plain label={` ${b.label} `} hover={{ bold: true, color: '#ffd84d', backgroundColor: '#5a4712' }} onPress={() => void send($, b.text)} />
             </Box>
           ))}
-          <Box key="qb-add">
+          <Box key="qb-add" flexShrink={0}>
             <Button key="qbtn-edit" plain dimColor label="＋" hover={{ dimColor: false, bold: true }} onPress={() => void openEditor($)} />
           </Box>
         </Box>

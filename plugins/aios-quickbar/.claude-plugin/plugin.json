@@ -1,6 +1,6 @@
 {
   "name": "aios-quickbar",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Buttons above the prompt for your routines (go ahead, try again, close, new project, remember, think, it's broken); one click sends; add, rename and delete your own; a second row sets the effort level",
   "author": {
     "name": "AI Sherpa"
