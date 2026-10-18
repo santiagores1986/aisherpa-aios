@@ -10,8 +10,8 @@ everything stands. Write steps 1, 2 and 4 directly; only step 3 needs the person
 narrate each step: do everything and deliver the summary in step 5.
 
 1. **Logs.** For every project where something changed in this session, add an entry to its
-   `log.md` with the date: what was done, what was decided, what comes next. One entry per
-   project, three lines at most. If a project has no log, create it.
+   `log.md`: one line starting with `- YYYY-MM-DD:` that says what was done, what was decided and
+   what comes next. One entry per project, never a heading per date. If a project has no log, create it.
 2. **Where we are.** Update the "Where we are" section of `context/priorities.md`: today's date,
    where the session ended, and the agreed next step in one sentence. Replace the previous entry;
    don't pile up history there, that is what the logs are for.

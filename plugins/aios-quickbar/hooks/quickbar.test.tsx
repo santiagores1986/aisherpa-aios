@@ -7,17 +7,12 @@ const band = async ($: any, on: any) => {
   })
 }
 
-test('the side chat button runs the side command even when the command list leaves it out', async ($, on) => {
+test('an old saved Side chat button is left out: the side chat draws its own', async ($, on) => {
   await band($, on)
-  on('store.get', async () => ({ value: undefined }))
-  on('command.list', async () => ({ value: [] }))
-  const ran: string[] = [], sent: string[] = []
-  on('command.run', async (_$: any, e: any) => { ran.push(e.command); return { text: '' } })
-  on('prompt.submit', async (_$: any, e: any) => { sent.push(e.text); return { drop: 'test' } })
+  on('store.get', async () => ({ value: [{ id: 'side', label: 'Side', text: '/side' }, { id: 'go', label: 'Go', text: 'go' }] }))
   const ui = await $.ui.mount({ plugin: 'aios-quickbar', surface: 'terminal', component: 'AbovePrompt', props: {} } as any)
-  await ui.press({ key: 'qbtn-side' })
-  expect(ran).toEqual(['side'])
-  expect(sent).toEqual([])
+  expect(await ui.find({ key: 'qbtn-side' })).toBeFalsy()
+  expect(JSON.stringify(await ui.find({ key: 'qbtn-go' }))).toContain('Go')
   await ui.unmount()
 })
 

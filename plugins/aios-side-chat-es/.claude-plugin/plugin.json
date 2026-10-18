@@ -1,6 +1,6 @@
 {
   "name": "aios-side-chat-es",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Un chat al lado, en su propio panel: pregunta sobre la conversación principal sin agregarle nada",
   "author": {
     "name": "AI Sherpa"

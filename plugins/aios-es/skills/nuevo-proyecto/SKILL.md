@@ -20,10 +20,12 @@ Luego, sin más preguntas y sin pedir permiso para ninguno de estos pasos:
   `otras-areas/<área>`) con:
   - `brief.md`: objetivo, para quién, decisión o entrega que busca, fuentes conocidas, fecha
     límite si la dijo. Lo que no sepas queda como «pendiente», no lo inventes.
-  - `bitacora.md`: título y una primera entrada con fecha: «Proyecto creado. Siguiente paso: …».
+  - `bitacora.md`: título y una primera entrada en una línea: `- AAAA-MM-DD: Proyecto creado. Siguiente paso: …`.
+    Cada entrada de la bitácora es una línea así, que empieza con «- » y la fecha; nunca un encabezado por fecha.
   - `entradas/`, `borradores/`, `entrega/`, vacías.
-- Añade una línea en `contexto/prioridades.md`, en la sección «## Proyectos activos» (créala si
-  no existe): `- <área>/proyectos/<nombre> · <una frase> · desde AAAA-MM-DD`.
+- Añade una línea en `contexto/prioridades.md`, en la sección «## Proyectos activos» que ya está
+  (créala solo si no existe; nunca una segunda): `- <área>/proyectos/<nombre> · <una frase> · desde AAAA-MM-DD`.
+  Si la sección solo dice «Ninguno todavía», cambia esa línea por la del proyecto.
 - Cierra en una línea: dónde quedó y cuál es el primer paso. Nada más.
 
 Los proyectos viven en `proyectos/`. Si la persona pide otro sitio, dile en una frase que aquí los

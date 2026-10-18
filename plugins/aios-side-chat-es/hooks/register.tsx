@@ -115,6 +115,24 @@ export const register: Register = on => {
     return {}
   })
 
+  // The side chat's own button above the prompt. It has to be this mod's own press: the engine places a
+  // pane at any width only when the person's command or press is behind it, and a press in another mod
+  // (the quickbar) does not count, so from there the pane waited unseen below 144 columns (2026-10-18).
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    const theirs = await next(e)
+    const { Box, Button } = $.ui.resolve(e)
+    return (
+      <Box flexDirection="column">
+        {theirs}
+        <Box key="side-row" flexDirection="row">
+          <Box key="side-btn-bg" backgroundColor="#3a4052" flexShrink={0}>
+            <Button key="side-open" plain label=" Chat al lado " hover={{ bold: true, color: '#ffd84d', backgroundColor: '#5a4712' }} onPress={() => void open($)} />
+          </Box>
+        </Box>
+      </Box>
+    )
+  })
+
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
     const { Box, Text, Button, Input, Markdown } = $.ui.resolve(e)
     const list = await read($, messages)

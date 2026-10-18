@@ -10,8 +10,8 @@ exactamente dónde quedó todo. Escribe directamente los pasos 1, 2 y 4; solo el
 de la persona. No narres cada paso: haz todo y entrega el resumen del paso 5.
 
 1. **Bitácoras.** Para cada proyecto en el que se cambió algo en esta sesión, añade a su
-   `bitacora.md` una entrada con fecha: qué se hizo, qué se decidió, qué sigue. Una entrada por
-   proyecto, tres líneas como máximo. Si un proyecto no tiene bitácora, créala.
+   `bitacora.md` una entrada: una línea que empieza con `- AAAA-MM-DD:` y dice qué se hizo, qué se
+   decidió y qué sigue. Una entrada por proyecto, nunca un encabezado por fecha. Si un proyecto no tiene bitácora, créala.
 2. **Dónde estamos.** Actualiza la sección «Dónde estamos» de `contexto/prioridades.md`: la fecha
    de hoy, en qué quedó la sesión, y el siguiente paso acordado en una frase. Sustituye la
    entrada anterior; no acumules historial ahí, para eso están las bitácoras.

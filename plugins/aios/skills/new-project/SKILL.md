@@ -22,10 +22,12 @@ Then, with no more questions and without asking permission for any of these step
   `other-areas/<area>`) with:
   - `brief.md`: goal, for whom, the decision or deliverable it aims at, known sources, deadline if
     they gave one. What you don't know stays as "pending"; don't invent it.
-  - `log.md`: a title and a first dated entry: "Project created. Next step: …".
+  - `log.md`: a title and a first entry on one line: `- YYYY-MM-DD: Project created. Next step: …`.
+    Every log entry is a line like that, starting with "- " and the date; never a heading per date.
   - `inputs/`, `drafts/`, `delivery/`, empty.
-- Add a line to `context/priorities.md`, under the "## Active projects" section (create it if it
-  doesn't exist): `- <area>/projects/<name> · <one sentence> · since YYYY-MM-DD`.
+- Add a line to `context/priorities.md`, under the "## Active projects" section that is already there
+  (create it only if it doesn't exist; never a second one): `- <area>/projects/<name> · <one sentence> · since YYYY-MM-DD`.
+  If the section only says "None yet", replace that line with the project's.
 - Finish in one line: where it landed and what the first step is. Nothing else.
 
 Projects live in `projects/`. If the person asks for somewhere else, tell them in one sentence

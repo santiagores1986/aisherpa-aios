@@ -16,7 +16,6 @@ const STORE_KEY = 'buttons'
 const DEFAULTS: QuickButton[] = [
   { id: 'go', label: '✓ Dale', text: 'dale, sigue' },
   { id: 'retry', label: '↻ Otra vez', text: 'inténtalo otra vez' },
-  { id: 'side', label: 'Chat al lado', text: '/side' },
   { id: 'bro', label: 'Bro', text: '/aios-es:bro' },
   { id: 'close', label: 'Cerrar', text: '/aios-es:cerrar' },
   { id: 'newproject', label: 'Nuevo proyecto', text: '/aios-es:nuevo-proyecto' },
@@ -143,7 +142,8 @@ export const register: Register = on => {
     // Always the saved list, so edits made elsewhere (another chat, the store file) show up
     let saved: unknown
     try { saved = await $.store.get(STORE_KEY) } catch { saved = undefined }
-    const list = Array.isArray(saved) && saved.length > 0 ? (saved as QuickButton[]) : await read($, buttons)
+    // The side chat draws its own button (a press here can't open its pane), so an older saved Side chat button is left out
+    const list = (Array.isArray(saved) && saved.length > 0 ? (saved as QuickButton[]) : await read($, buttons)).filter(b => b.text.trim() !== '/side')
     const choice = await read($, effortChoice)
     const seen = await read($, sessionEffort)
     const { Box, Button, Text } = $.ui.resolve(e)

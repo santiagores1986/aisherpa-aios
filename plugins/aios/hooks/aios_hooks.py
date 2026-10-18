@@ -43,6 +43,24 @@ def aios_root(inp):
     root = pathlib.Path(root).resolve()
     return root if (root/'.aios').is_dir() else None
 
+def last_entry(text):
+    """The newest entry of a project log: a "- " line, or a paragraph under a "## date" heading
+    (the assistant sometimes writes entries that way; Windows test 2026-10-18 showed no entry at all)."""
+    head, entries, joined = '', [], False   # joined: the line before was part of an entry
+    for l in text.splitlines():
+        s = l.strip()
+        if not s: joined = False; continue
+        if s.startswith('#'):
+            if s.startswith('## '): head = s[3:].strip()
+            joined = False; continue
+        if s.startswith('- '): entries.append(s[2:])
+        elif joined and entries: entries[-1] += ' ' + s
+        else: entries.append((head + ': ' if head else '') + s)
+        joined = True
+    e = entries[-1] if entries else ''
+    return e if len(e) <= 200 else e[:199].rstrip() + '…'
+
+
 def projects(root, t):
     dirs = []
     for area in t['areas']:
@@ -71,8 +89,8 @@ def state(root, t, inp):
     for label, d in projects(root, t):
         lf = d/t['logf']
         if lf.is_file():
-            last = [l for l in lf.read_text(encoding='utf-8').splitlines() if l.startswith('- ')]
-            if last: out.append(f'- {label}: {last[-1][2:]}'); anyl = True
+            last = last_entry(lf.read_text(encoding='utf-8'))
+            if last: out.append(f'- {label}: {last}'); anyl = True
     if not anyl: out.append(t['nolog'])
     mem = root/t['mem']
     out.append('')
