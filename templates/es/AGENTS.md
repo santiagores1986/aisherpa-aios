@@ -119,6 +119,10 @@ fuentes), `bitacora.md` (qué se hizo y qué se decidió, con fecha), `entradas/
   `bitacora.md` de ese proyecto.
 - Lo que {{NOMBRE}} te pida recordar y no encaje arriba va a tu memoria automática.
 - Si tu memoria automática contradice a `contexto/` o a las Reglas aprendidas, mandan estos.
+- Los comandos de AIOS (los que empiezan con `/`) vienen de la tienda de AI Sherpa y se reemplazan
+  en cada actualización: nunca edites sus archivos. Si {{NOMBRE}} quiere que uno funcione distinto,
+  propón una regla para «Reglas aprendidas» (por ejemplo `N. [PROCESO] Siempre que uses /cerrar, X,
+  porque Y`) y espera su sí. Así su cambio sobrevive a las actualizaciones.
 
 ## Nombres de archivos y carpetas
 

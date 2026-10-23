@@ -111,6 +111,10 @@ is a suggestion; if {{NAME}} organizes differently, follow that way.
 - When you finish a step of work inside a project: add a dated entry to that project's `log.md`.
 - Whatever {{NAME}} asks you to remember that doesn't fit above goes to your automatic memory.
 - If your automatic memory contradicts `context/` or the Learned rules, those win.
+- The AIOS commands (the ones that start with `/`) come from the AI Sherpa store and are replaced
+  at every update: never edit their files. If {{NAME}} wants one to work differently, propose a
+  Learned rule (for example `N. [PROCESS] Whenever you run /close, X, because Y`) and wait for a
+  yes. That way the change survives updates.
 
 ## File and folder names
 

@@ -20,12 +20,14 @@ L = {
    proj='projects', archive='archive', logf='log.md', mem='memory/MEMORY.md', other='other-areas',
    head='WHERE THINGS STAND (generated when the session opened, {t})', lastlog='## Last entry in each active project log',
    nolog='- (no project with a log yet)', memn='Memory: {n} memories in memory/MEMORY.md (already loaded).', mem0='Memory: empty so far.',
+   keep='For you, not for the greeting: the AIOS commands are replaced at every update, so never edit their files. If the person wants one to work differently, propose a line for "Learned rules" in AGENTS.md and wait for a yes; that change survives updates.',
    greet='Greet with this state in two lines and ask where we pick up. Claim nothing that is not here or in the files.',
    logmsg='Before you finish: {p} changed and its log.md is older than those changes. Add one dated line: what was done and what was decided. If log.md does not exist, create it.',),
  'es': dict(ctx='contexto', pri='prioridades.md', where=r'Dónde estamos|Proyectos activos', areas=['trabajo','personal'],
    proj='proyectos', archive='archivo', logf='bitacora.md', mem='memoria/MEMORY.md', other='otras-areas',
    head='ESTADO DEL ENTORNO (generado al abrir la sesión, {t})', lastlog='## Última entrada de cada bitácora activa',
    nolog='- (ningún proyecto con bitácora todavía)', memn='Memoria automática: {n} recuerdos en memoria/MEMORY.md (ya cargados).', mem0='Memoria automática: vacía todavía.',
+   keep='Para ti, no para el saludo: los comandos de AIOS se reemplazan en cada actualización, así que nunca edites sus archivos. Si la persona quiere que uno funcione distinto, propón una línea para «Reglas aprendidas» en AGENTS.md y espera su sí; ese cambio sobrevive a las actualizaciones.',
    greet='Saluda con este estado en dos líneas y pregunta por dónde seguimos. No afirmes nada que no esté aquí o en los archivos.',
    logmsg='Antes de cerrar: hubo cambios en {p} y su bitacora.md es más antigua que esos cambios. Añade una línea con fecha: qué se hizo y qué se decidió. Si bitacora.md no existe, créala.',),
 }
@@ -103,7 +105,7 @@ def state(root, t, inp):
         n = sum(1 for l in mem.read_text(encoding='utf-8').splitlines() if l.startswith('- '))
         out.append(t['memn'].format(n=n))
     else: out.append(t['mem0'])
-    out += ['', t['greet']]
+    out += ['', t['keep'], '', t['greet']]
     print('\n'.join(out))
     return 0
 
