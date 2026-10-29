@@ -423,6 +423,21 @@ async function openOnMac($: EngineInterface, href: string) {
 const BOOKKEEPING = /[\\/]\.claude[\\/]|[\\/]AIOS[\\/](memory|memoria)[\\/]|[\\/]node_modules[\\/]|[\\/]\.git[\\/]/
 export const isReadable = (p: string) => isMd(p) && !BOOKKEEPING.test(p)
 
+// Documents a shell command writes: the targets of > and >> and of tee that end in .md, absolute
+// (bashEditDiff did not report an `echo … >> file.md` append; Spanish audit 2026-10-29)
+export const shellWrites = (command: string, cwd: string, home: string): string[] => {
+  const out: string[] = []
+  const add = (p: string) => {
+    const abs = /^~[\\/]/.test(p) ? home + p.slice(1) : /^([\\/]|[A-Za-z]:)/.test(p) ? p : cwd + '/' + p.replace(/^\.[\\/]/, '')
+    if (isMd(abs) && !out.includes(abs)) out.push(abs)
+  }
+  const target = String.raw`(?:"([^"]+)"|'([^']+)'|([^\s"'|;&<>()]+))`
+  const redirect = new RegExp(String.raw`(?:^|[^0-9&>])>>?\s*` + target, 'g')
+  const tee = new RegExp(String.raw`\btee\s+(?:-a\s+|--append\s+)?` + target, 'g')
+  for (const re of [redirect, tee]) for (const m of command.matchAll(re)) add(m[1] ?? m[2] ?? m[3])
+  return out
+}
+
 async function remember($: EngineInterface, paths: string[]) {
   const at = await $.clock.now()
   const fresh = paths.filter(isReadable)
@@ -450,6 +465,11 @@ export const register: Register = on => {
     if (['Edit', 'Write', 'MultiEdit'].includes(e.tool) && typeof input.file_path === 'string') paths.push(input.file_path)
     if (Array.isArray(out.bashEditDiff?.files)) {
       for (const f of out.bashEditDiff.files) if (!f.deleted && typeof f.filePath === 'string') paths.push(f.filePath)
+    }
+    if (e.tool === 'Bash' && typeof input.command === 'string') {
+      for (const p of shellWrites(input.command, await $.session.cwd(), HOME)) {
+        try { if ((await $.fs.stat(p)).kind === 'file') paths.push(p) } catch { /* not written after all */ }
+      }
     }
     if (paths.length) await remember($, paths)
     return ran

@@ -1,6 +1,6 @@
 import { expect, test } from 'claude-code/testing'
 
-import { blocksOf, linkify, spansOf, withRowDividers } from './register'
+import { blocksOf, linkify, shellWrites, spansOf, withRowDividers } from './register'
 
 const DOC = `---
 title: x
@@ -203,5 +203,26 @@ test('without Glow the pane shows the document and says once to install Glow', a
   const ui = await $.ui.mount({ plugin: 'aios-md-view', surface: 'terminal', component: 'Pane', requestId: 'md-view', props: { title: 'a.md', isFocused: true, bodyColumns: 80 } } as any)
   expect(await ui.find({ type: 'Text', text: /HOLA/ })).toBeDefined()
   expect(await ui.find({ type: 'Text', text: /Install Glow for nicer documents|Instala Glow/ })).toBeDefined()
+  await ui.unmount()
+})
+
+test('documents a shell command writes (>, >>, tee) are read from the command', async () => {
+  expect(shellWrites(`echo "Revisado" >> trabajo/salidas/nota.md`, '/Users/x/AIOS', '/Users/x')).toEqual(['/Users/x/AIOS/trabajo/salidas/nota.md'])
+  expect(shellWrites(`printf 'a' > "/Users/x/AIOS/work/My Notes.md"; cat a | tee -a ~/AIOS/log.md`, '/Users/x/AIOS', '/Users/x')).toEqual(['/Users/x/AIOS/work/My Notes.md', '/Users/x/AIOS/log.md'])
+  expect(shellWrites(`ls > out.txt 2>&1; grep x a.md`, '/Users/x/AIOS', '/Users/x')).toEqual([])
+})
+
+test('a document appended by a shell command appears in the strip (Spanish audit 2026-10-29)', async ($, on) => {
+  on('clock.now', async () => ({ value: 1 }))
+  on('session.cwd', async () => ({ value: '/Users/x/AIOS' }))
+  on('fs.stat', async () => ({ value: { kind: 'file', size: 3, mtimeMs: 1, isLink: false } }))
+  on('tool.call', async () => ({ result: { stdout: '', stderr: '', interrupted: false } }))
+  on('ui.render', { component: 'AbovePrompt' }, async (_$, e) => {
+    const { Box } = _$.ui.resolve(e)
+    return Box({})
+  })
+  await $.tool.call({ tool: 'Bash', command: 'echo "Revisado el 29 de octubre." >> trabajo/salidas/nota.md' } as any)
+  const ui = await $.ui.mount({ plugin: 'aios-md-view', surface: 'terminal', component: 'AbovePrompt', props: {} } as any)
+  expect(JSON.stringify(await ui.find({ key: 'open-/Users/x/AIOS/trabajo/salidas/nota.md' }))).toContain('nota.md')
   await ui.unmount()
 })
