@@ -218,6 +218,21 @@ describe('cache indicator', () => {
     expect(w.forks.length).toBe(0)
   })
 
+  // On a client Mac the installer's managed settings seat cc-plugin-sec-default, which owns classic.* events,
+  // so classic.SessionStart never reaches this mod; session.end with reason 'clear' does (audit 2026-10-29).
+  test('after /clear (seen through session.end only) the first message of the fresh chat is not stopped as a cold write', async ($, on) => {
+    const clock = mock.clock(on, { now: START })
+    const w = world(on, [])
+    on('session.end', ($, e) => ({ sessionId: e.sessionId }) as any)
+    await $.session.start(session)
+    await $.turn.complete(turn())
+    await clock.advance(3 * HOUR)
+    await $.session.end({ reason: 'clear', sessionId: 'S1', resume: { sessionId: 'S1' } } as any)
+    const first = await $.prompt.submit(prompt('hi'))
+    expect(first.drop).toBe(undefined)
+    expect(w.entered).toEqual(['hi'])
+  })
+
   test('window expiry removes the row and surveys retain their band', async ($, on) => {
     const clock = mock.clock(on, { now: START })
     const w = world(on, [], { bandText: 'survey' })

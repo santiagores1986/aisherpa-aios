@@ -46,6 +46,8 @@ type GuardMode = 'refuse' | 'warn'
 export type State = {
   hasBand: boolean
   sid: string
+  /** A /clear seen through session.end: the new session's id is read at the next turn. */
+  sidStale: boolean
   deadline: number
   every: number
   always: boolean
@@ -351,7 +353,7 @@ function card(s: State, now: number): string {
 
 export function freshState(): State {
   return {
-    hasBand: false, sid: '', deadline: 0, every: PING_AFTER_MS, always: false, paused: false, lastRequestAt: 0, lastModel: null, ctx: 0, compacted: false,
+    hasBand: false, sid: '', sidStale: false, deadline: 0, every: PING_AFTER_MS, always: false, paused: false, lastRequestAt: 0, lastModel: null, ctx: 0, compacted: false,
     guard: 'refuse', ackedAt: 0, coldWritePending: false, misses: [], pending: null, last: null, stopped: null,
   }
 }
@@ -483,6 +485,21 @@ export const register: Register = on => {
     return r
   })
 
+  // /clear as every tier sees it. On a client Mac the installer's managed settings seat Claude Code's
+  // cc-plugin-sec-default, which owns classic.* events, so the classic clear branch below never runs there:
+  // without this the old chat's size and clock stayed and the fresh chat's first message was stopped as a
+  // cold write (audit 2026-10-29). Running both is harmless: the reset is the same.
+  on('session.end', async ($, e, next) => {
+    const r = await next(e)
+    if (e.reason !== 'clear') return r
+    await stop($, s, null)
+    s.stopped = null
+    resetForClear(s)
+    s.sidStale = true
+    updateStatus($, s, await $.clock.now())
+    return r
+  })
+
   // Resume fields seed the guard before any turn of the resumed session has run.
   on('classic.SessionStart', async ($, e, next) => {
     const r = await next(e)
@@ -579,6 +596,7 @@ export const register: Register = on => {
   on('turn.complete', async ($, e, next) => {
     const r = await next(e)
     if (e.agentId) return r
+    if (s.sidStale) { s.sid = await $.session.id(); s.sidStale = false }
     const now = await $.clock.now()
     // A sleeping host may deliver this turn before the expired window's timer.
     if (s.deadline && now >= s.deadline) await stop($, s, null)
