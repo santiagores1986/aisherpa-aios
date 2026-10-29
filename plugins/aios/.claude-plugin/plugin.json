@@ -1,7 +1,7 @@
 {
   "name": "aios",
-  "version": "1.2.15",
-  "description": "Your AI system's routines (start, close, new project, remember, make a skill, it's broken), thinking tools (research, think, teach, bro, wait what) and the session state and project logs",
+  "version": "1.2.16",
+  "description": "Your AI system's routines (start, close, new project, remember, make a skill, it's broken, connect Google), thinking tools (research, think, teach, bro, wait what) and the session state and project logs",
   "author": {
     "name": "AI Sherpa"
   }

@@ -1,7 +1,7 @@
 {
   "name": "aios-es",
-  "version": "1.2.16",
-  "description": "Las rutinas de tu sistema de IA (empezar, cerrar, nuevo proyecto, actualizar contexto, extraer proceso, no funciona), las herramientas para pensar (investigar, pensar, teach, bro, waitwhat) y el estado de la sesión y las bitácoras",
+  "version": "1.2.17",
+  "description": "Las rutinas de tu sistema de IA (empezar, cerrar, nuevo proyecto, actualizar contexto, extraer proceso, no funciona, conectar Google), las herramientas para pensar (investigar, pensar, teach, bro, waitwhat) y el estado de la sesión y las bitácoras",
   "author": {
     "name": "AI Sherpa"
   }
