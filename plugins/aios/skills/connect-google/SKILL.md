@@ -83,7 +83,9 @@ never touching those files still applies. Add these to `permissions.ask`: `"mcp_
 `create_drive_folder`, `create_doc`, `create_spreadsheet`, `export_doc_to_pdf`, `import_to_google_doc`,
 `import_to_google_sheets`, `import_to_google_slides`) must ask first, because a folder can already be shared
 with other people. `update_drive_file` can also change who may reshare a file.
-Create either list if it doesn't exist. Then the person closes this chat and
+Create either list if it doesn't exist. Then run the same `uvx` path once with `workspace-mcp==2.2.1 --help`
+and wait until it finishes: the first run downloads the connection, and a new chat gives it only 30 seconds
+to start (without this the first chat said it timed out; VM test 2026-10-29). Then the person closes this chat and
 opens a new one, and the connection loads there.
 
 ## 6. Sign in to each account (both of you)

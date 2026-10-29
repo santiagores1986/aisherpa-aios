@@ -85,8 +85,10 @@ terminal, así que la regla de abajo sobre no tocar esos archivos sigue valiendo
 `create_drive_file`, `create_drive_folder`, `create_doc`, `create_spreadsheet`, `export_doc_to_pdf`,
 `import_to_google_doc`, `import_to_google_sheets`, `import_to_google_slides`) deben preguntar antes,
 porque una carpeta puede estar compartida con otras personas. `update_drive_file` también puede
-cambiar quién puede volver a compartir un archivo. Crea cualquiera de las dos listas si no existe. Luego la persona cierra este chat y
-abre uno nuevo, y ahí carga la conexión.
+cambiar quién puede volver a compartir un archivo. Crea cualquiera de las dos listas si no existe. Luego ejecuta una vez esa misma ruta de `uvx` con
+`workspace-mcp==2.2.1 --help` y espera a que termine: la primera vez descarga la conexión, y un chat nuevo solo
+le da 30 segundos para arrancar (sin esto, el primer chat dijo que se agotó el tiempo; prueba en la VM, 2026-10-29).
+Luego la persona cierra este chat y abre uno nuevo, y ahí carga la conexión.
 
 ## 6. Entra a cada cuenta (los dos)
 
