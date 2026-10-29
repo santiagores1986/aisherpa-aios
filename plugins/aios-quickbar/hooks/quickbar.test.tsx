@@ -26,3 +26,13 @@ test('a plain button still sends its text as typed', async ($, on) => {
   expect(sent.length).toBe(1)
   await ui.unmount()
 })
+
+test('after /clear the saved buttons still draw, with no classic hook (sec-default owns those on client Macs)', async ($, on) => {
+  await band($, on)
+  on('store.get', async () => ({ value: [{ id: 'mine', label: 'Mine', text: 'my routine' }] }))
+  on('classic.SessionStart', async () => ({}))
+  await $.classic.SessionStart({ source: 'clear' } as any)
+  const ui = await $.ui.mount({ plugin: 'aios-quickbar', surface: 'terminal', component: 'AbovePrompt', props: {} } as any)
+  expect(JSON.stringify(await ui.find({ key: 'qbtn-mine' }))).toContain('Mine')
+  await ui.unmount()
+})

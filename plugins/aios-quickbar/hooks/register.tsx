@@ -115,11 +115,9 @@ export const register: Register = on => {
     return next(e)
   })
 
-  // /clear, /resume and /branch reset session state: load the saved buttons again
-  on('classic.SessionStart', { source: ['clear', 'resume', 'fork'] }, async ($, e, next) => {
-    await load($)
-    return next(e)
-  })
+  // No classic.SessionStart hook: on a client Mac (managed settings) Claude Code's cc-plugin-sec-default owns the
+  // classic events, so it never ran and only printed a grey "hook skipped" line at every start (audit 2026-10-29).
+  // The band reads the saved buttons on every draw, so /clear, /resume and /branch show them anyway.
 
   // Apply the chosen effort to each main-loop request; turn.step streams, so a generator
   on('turn.step', async function* ($, e, next) {
