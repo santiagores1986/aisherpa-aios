@@ -129,7 +129,7 @@ account. Never send an email or a message,
 or share a file, unless {{NAME}} authorizes it at that moment.
 
 For more than those connectors give (several Gmail accounts, saving attachments to the Mac, drafts
-with attachments), there is an advanced Google connection that runs on this Mac and cannot send.
+with attachments), there is an advanced Google connection that runs on this Mac and has no tool to send mail.
 The `/aios:connect-google` skill sets it up.
 
 ## What you can do

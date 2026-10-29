@@ -1,21 +1,24 @@
 ---
 name: conectar-google
-description: Instalar en este Mac la conexión avanzada con Google, para cuando los conectores de la cuenta de Claude no alcanzan. Lee el correo de varias cuentas de Gmail, guarda adjuntos en el Mac, crea borradores con adjuntos y trabaja en Drive, Docs, Sheets y Calendar. Nunca puede enviar. USE WHEN conectar Google, conectar mi Gmail, varias cuentas de Gmail, segunda cuenta de Gmail, descargar adjuntos, borrador con adjunto, se dañó la conexión con Google, quitar la conexión con Google.
+description: Instalar en este Mac la conexión avanzada con Google, para cuando los conectores de la cuenta de Claude no alcanzan. Lee el correo de varias cuentas de Gmail, guarda adjuntos en el Mac, crea borradores con adjuntos y trabaja en Drive, Docs, Sheets y Calendar. No tiene herramienta para enviar correos ni para cambiar con quién se comparte un archivo. USE WHEN conectar Google, conectar mi Gmail, varias cuentas de Gmail, segunda cuenta de Gmail, descargar adjuntos, borrador con adjunto, se dañó la conexión con Google, quitar la conexión con Google.
 ---
 
 # Conectar Google
 
 Esto instala una conexión con Google que corre en este Mac. Usa una llave propia de la persona (un
-proyecto suyo en Google Cloud), y tú la configuras para que nunca pueda enviar correos. La persona
-no tiene formación técnica. Tú haces todos los pasos en la terminal. Ella solo hace los clics que
+proyecto suyo en Google Cloud), y tú la configuras sin ninguna herramienta que envíe correos. La persona
+no tiene formación técnica. Tú haces todos los pasos en la terminal. La persona solo hace los clics que
 Google le pida en el navegador, uno a la vez. Ábrele cada página con `open <url>`, dale un paso,
 espera a que diga «listo» y luego dale el siguiente.
 
 Lo que puede hacer: buscar y leer el correo de cada cuenta, guardar adjuntos en el Mac, crear
 borradores (con adjuntos y como respuesta dentro del mismo hilo), manejar etiquetas y trabajar en
-Drive, Docs y Sheets. Calendar empieza en modo solo lectura. Lo que no puede hacer: enviar correos
-ni compartir archivos de Drive con otras personas. No existe la herramienta de enviar. Antes de que
-algo salga, la persona abre el borrador en Gmail y le da Enviar.
+Drive, Docs y Sheets. Calendar empieza en modo solo lectura. Lo que no tiene: una herramienta para
+enviar correos ni una para cambiar con quién se comparte un archivo de Drive. Sé honesto sobre lo que
+eso significa: el permiso de Google que usan los borradores también permite enviar, así que esto no
+es un candado técnico. Lo que evita que salga un correo es que falta la herramienta, más tus reglas.
+Antes de que algo salga, la persona abre el borrador en Gmail y le da Enviar. Díselo así también:
+«No tengo botón para enviar; tú lo envías desde Gmail».
 
 ## 0. Revisa primero
 
@@ -66,7 +69,7 @@ Nunca muestres, leas en voz alta ni copies este archivo a ninguna otra parte.
 claude mcp add -s user google \
   -e GOOGLE_CLIENT_SECRET_PATH=~/.aios/google/client_secret.json \
   -e WORKSPACE_MCP_CREDENTIALS_DIR=~/.aios/google/accounts \
-  -e WORKSPACE_ATTACHMENT_DIR=~/.aios/google/downloads \
+  -e WORKSPACE_ATTACHMENT_DIR=~/AIOS/.google-downloads \
   -e ALLOWED_FILE_DIRS=~/AIOS:~/Documents:~/Desktop:~/Downloads \
   -e WORKSPACE_MCP_PORT=8766 \
   -- /opt/homebrew/bin/uvx workspace-mcp==2.2.1 --single-user --tool-tier extended \
@@ -74,8 +77,15 @@ claude mcp add -s user google \
   --disabled-tools manage_drive_access set_drive_file_permissions
 ```
 Cópialo tal cual. Deja fija la versión y nunca le agregues `send` ni `full` a gmail. En
-`~/.claude/settings.json`, agrega `"Read(~/.aios/google/**)"` a `permissions.deny` (crea la lista
-si no existe), para que ningún chat lea los accesos guardados. Luego la persona cierra este chat y
+`~/.claude/settings.json`, agrega `"Read(~/.aios/google/**)"` a `permissions.deny`, para que ningún
+chat lea la llave ni los accesos guardados. Esa carpeta solo guarda eso; las descargas van a
+`~/AIOS/.google-downloads`, que sí se puede leer. Negar Read no detiene un script corrido en la
+terminal, así que la regla de abajo sobre no tocar esos archivos sigue valiendo. Agrega a
+`permissions.ask`: `"mcp__google__update_drive_file"`, `"mcp__google__copy_drive_file"`, `"mcp__google__create_drive_file"`, `"mcp__google__create_drive_folder"`, `"mcp__google__create_doc"`, `"mcp__google__create_spreadsheet"`, `"mcp__google__export_doc_to_pdf"`, `"mcp__google__import_to_google_doc"`, `"mcp__google__import_to_google_sheets"`, `"mcp__google__import_to_google_slides"`. Las herramientas de Drive que ponen un archivo en una carpeta (`update_drive_file`, `copy_drive_file`,
+`create_drive_file`, `create_drive_folder`, `create_doc`, `create_spreadsheet`, `export_doc_to_pdf`,
+`import_to_google_doc`, `import_to_google_sheets`, `import_to_google_slides`) deben preguntar antes,
+porque una carpeta puede estar compartida con otras personas. `update_drive_file` también puede
+cambiar quién puede volver a compartir un archivo. Crea cualquiera de las dos listas si no existe. Luego la persona cierra este chat y
 abre uno nuevo, y ahí carga la conexión.
 
 ## 6. Entra a cada cuenta (los dos)
@@ -102,7 +112,7 @@ en el nombre. Cuéntale qué funcionó, una línea por cosa.
 
 ## 8. Cómo usarlo
 
-- **Adjuntos que llegan:** `get_gmail_attachment_content` guarda el archivo en `~/.aios/google/downloads`, y lo que haya ahí **se borra a la hora**. Mueve cada archivo enseguida a donde corresponde (en `~/AIOS` o donde la persona diga).
+- **Adjuntos que llegan:** `get_gmail_attachment_content` guarda el archivo en `~/AIOS/.google-downloads`, y lo que haya ahí **se borra a la hora**. Justo después de cada descarga, mueve el archivo a la carpeta del proyecto que le corresponde en `~/AIOS` (o donde la persona diga) y trabaja con él ahí.
 - **Adjuntos que salen:** `draft_gmail_message` con `attachments: [{"path": "<archivo>"}]`. Solo se pueden adjuntar archivos de `~/AIOS`, Documentos, Escritorio o Descargas. Copia cualquier otro archivo a una de esas carpetas antes. Avísale que el borrador está listo y que lo envía la persona desde Gmail.
 - **Archivos a Drive:** `create_drive_file` con `fileUrl: "file:///ruta/completa"`.
 - **Cambios en el calendario** están apagados. Si quiere que crees eventos, cambia `calendar:readonly`
@@ -115,13 +125,14 @@ en el nombre. Cuéntale qué funcionó, una línea por cosa.
 
 - **Vuelve a pedir acceso a la semana:** la app sigue «En prueba». Publícala (sección 2) y vuelve a entrar (sección 6).
 - **«Address already in use» en 8766:** cambia `WORKSPACE_MCP_PORT` a `8767` en el comando de la sección 5 y regístralo de nuevo.
-- **Quitarlo:** `claude mcp remove -s user google` y luego `rm -rf ~/.aios/google`. Después, en cada cuenta,
+- **Quitarlo:** `claude mcp remove -s user google` y luego `rm -rf ~/.aios/google ~/AIOS/.google-downloads`. Después, en cada cuenta,
   `open https://myaccount.google.com/connections`, elige Mi AIOS y clic en Borrar todas las conexiones.
   Si quiere, también puede borrar el proyecto en `https://console.cloud.google.com/iam-admin/settings`.
 
 ## Reglas
 
 - Nunca registres gmail con `send` ni `full`, y nunca actives las dos herramientas de compartir de Drive. Enviar y compartir le tocan a la persona.
+- Antes de poner un archivo de Drive en una carpeta, di cuál carpeta y si otras personas pueden verla, y espera un sí.
 - Nunca leas, muestres ni muevas nada de `~/.aios/google/accounts` ni la llave, salvo lo que dice la sección 4.
 - Nunca apuntes `WORKSPACE_ATTACHMENT_DIR` a una carpeta de verdad. Todo lo que lleve más de una hora ahí se borra.
 - Si un paso falla, di en palabras sencillas lo que viste y detente. No pruebes otro conector sin decírselo.

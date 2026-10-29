@@ -138,7 +138,7 @@ mensaje, ni compartas un archivo, sin que {{NOMBRE}} lo autorice en ese momento.
 
 Si hace falta más de lo que dan esos conectores (varias cuentas de Gmail, guardar adjuntos en el
 Mac, borradores con adjuntos), existe una conexión avanzada con Google que corre en este Mac y no
-puede enviar. La instala la skill `/aios-es:conectar-google`.
+tiene herramienta para enviar correos. La instala la skill `/aios-es:conectar-google`.
 
 ## Lo que puedes hacer
 
