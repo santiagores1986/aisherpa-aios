@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """AIOS hooks (AI Sherpa). One file, three jobs, chosen by the first argument:
   state    SessionStart: hand the AI where everything stands before its first word
+           (and runs the catch-up list, catchup.py: what this Mac still lacks from newer installers)
   log      Stop: if a project changed after its log, send the AI back once to write the entry
   time     UserPromptSubmit: the current date and time, so long sessions don't lose the day
 Second argument: language, en or es. The hooks act only inside an AIOS folder
@@ -105,7 +106,17 @@ def state(root, t, inp):
         n = sum(1 for l in mem.read_text(encoding='utf-8').splitlines() if l.startswith('- '))
         out.append(t['memn'].format(n=n))
     else: out.append(t['mem0'])
-    out += ['', t['keep'], '', t['greet']]
+    out += ['', t['keep']]
+    # The catch-up list (catchup.py): what this Mac still lacks from newer installers, fixed by the runner
+    # itself; only a line for the assistant comes back. Never in the way of the session.
+    try:
+        sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+        import catchup
+        lines = [l for l in catchup.start(LANG) if l]
+        if lines: out += [''] + lines
+    except Exception:
+        pass
+    out += ['', t['greet']]
     print('\n'.join(out))
     return 0
 
@@ -124,6 +135,8 @@ def log(root, t, inp):
         return 2
     return 0
 
+LANG = 'en'
+
 DAYS = {'en': 'Monday Tuesday Wednesday Thursday Friday Saturday Sunday', 'es': 'lunes martes miércoles jueves viernes sábado domingo'}
 
 def clock(t, lang):
@@ -135,7 +148,9 @@ def clock(t, lang):
 
 def main():
     job = sys.argv[1] if len(sys.argv) > 1 else ''
-    t = L.get(sys.argv[2] if len(sys.argv) > 2 else 'en', L['en'])
+    global LANG
+    LANG = sys.argv[2] if len(sys.argv) > 2 and sys.argv[2] in L else 'en'
+    t = L[LANG]
     inp = read_input()
     if job == 'time': return clock(t, sys.argv[2] if len(sys.argv) > 2 else 'en')
     root = aios_root(inp)

@@ -1,0 +1,32 @@
+{
+  "about": "AIOS catch-up list: what existing installs need from newer installers. Run by catchup.py from the start hook. Same file in aios and aios-es. Check exit codes: 0 present, 1 missing, 2 not for this Mac. Rule (RELEASE-CERT.md): every installer change that existing clients also need ships here in the same release.",
+  "items": [
+    {
+      "id": "2026-10-29-tesseract-spa",
+      "since_installer": "2026-10-29",
+      "langs": [
+        "es"
+      ],
+      "os": [
+        "darwin"
+      ],
+      "recheck": true,
+      "check": [
+        "/bin/zsh",
+        "-c",
+        "TS=/opt/homebrew/bin/tesseract; [[ -x $TS ]] || TS=/usr/local/bin/tesseract; [[ -x $TS ]] || exit 2; L=$(\"$TS\" --list-langs 2>/dev/null) || exit 3; print -r -- \"$L\" | grep -qx spa && exit 0 || exit 1"
+      ],
+      "fix": [
+        "/bin/zsh",
+        "-c",
+        "TS=/opt/homebrew/bin/tesseract; [[ -x $TS ]] || TS=/usr/local/bin/tesseract; TD=$(\"$TS\" --list-langs 2>&1 | sed -n 's/.*in \"\\(.*\\)\".*/\\1/p' | head -1); [[ -d $TD ]] || exit 1; curl -fsSL --retry 3 --retry-all-errors --max-time 240 -o \"$TD/spa.traineddata.part\" https://github.com/tesseract-ocr/tessdata_fast/raw/main/spa.traineddata && mv \"$TD/spa.traineddata.part\" \"$TD/spa.traineddata\""
+      ],
+      "check_timeout": 10,
+      "fix_timeout": 300,
+      "msg": {
+        "en": "Added the Spanish data for reading scanned documents (tesseract spa), so accents come out right.",
+        "es": "Se agregaron los datos en español para leer documentos escaneados (tesseract, español), así los acentos salen bien."
+      }
+    }
+  ]
+}
