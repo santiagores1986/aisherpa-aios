@@ -96,6 +96,36 @@ test('Windows Glow 256-colour codes and bare resets become spans', async () => {
   ])
 })
 
+test('Glow 3 link codes are dropped so a document with web links still draws', async ($, on) => {
+  on('ui.open', async () => ({ value: { isPlaced: true } }))
+  on('ui.scroll', async () => ({ value: {} }))
+  on('fs.read', async () => ({ value: 'Ver https://example.com' }))
+  on('fs.stat', async () => ({ value: { mtimeMs: 9, size: 23, kind: 'file' } }))
+  on('session.cwd', async () => ({ value: '/Users/x/AIOS' }))
+  on('process.run', async () => ({ value: { exitCode: 0, stdout: '\x1b[38;5;252mVer \x1b[m\x1b[38;5;30;4m\x1b]8;id=187;https://example.com\x07https://example.com\x1b]8;;\x07\x1b[m and \x1b]8;;https://b.co\x1b\\b\x1b]8;;\x1b\\', stderr: '' } }))
+  await $.command.run({ command: 'view', args: '/Users/x/AIOS/links.md' })
+  const ui = await $.ui.mount({ plugin: 'aios-md-view', surface: 'terminal', component: 'Pane', requestId: 'md-view', props: { title: 'links.md', isFocused: true, bodyColumns: 80 } } as any)
+  expect(await ui.find({ type: 'Text', text: /https:\/\/example\.com/ })).toBeDefined()
+  await ui.unmount()
+})
+
+test('on Mac Glow also gets the document on stdin, not as a path', async ($, on) => {
+  const runs: any[] = []
+  on('ui.open', async () => ({ value: { isPlaced: true } }))
+  on('ui.scroll', async () => ({ value: {} }))
+  on('fs.read', async () => ({ value: '# Hola' }))
+  on('fs.stat', async () => ({ value: { mtimeMs: 8, size: 6, kind: 'file' } }))
+  on('session.cwd', async () => ({ value: '/Users/x/AIOS' }))
+  on('process.run', async (_: any, req: any) => { runs.push(req); return { value: { exitCode: 0, stdout: '\x1b[38;5;39;1mHola\x1b[m', stderr: '' } } })
+  await $.command.run({ command: 'view', args: '/Users/x/AIOS/b.md' })
+  const ui = await $.ui.mount({ plugin: 'aios-md-view', surface: 'terminal', component: 'Pane', requestId: 'md-view', props: { title: 'b.md', isFocused: true, bodyColumns: 80 } } as any)
+  expect(await ui.find({ type: 'Text', text: /Hola/ })).toBeDefined()
+  const glow = runs.map(r => JSON.stringify(r)).find(s => s.includes('"-s"'))
+  expect(glow).toContain('"-"')
+  expect(glow).not.toContain('b.md"')
+  await ui.unmount()
+})
+
 test('on Windows Glow gets the document on stdin, not as a path', async ($, on) => {
   const runs: any[] = []
   on('ui.open', async () => ({ value: { isPlaced: true } }))

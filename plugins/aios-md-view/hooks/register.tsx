@@ -225,19 +225,19 @@ async function glowLines($: EngineInterface, path: string, width: number): Promi
   if (hit) return hit
   try {
     const w = String(Math.max(40, width - 2))
-    // Glow 3.0.0 on Windows prints two empty lines for any file path (found 2026-10-17), so it gets the text on stdin there
-    const r = (await isWindows($))
-      ? await $.process.run([bin, '-s', 'dark', '-w', w, '-'], {
-          env: { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color' },
-          stdin: await $.fs.read(path),
-          timeoutMs: 8000,
-        })
-      : await $.process.run([bin, '-s', 'dark', '-w', w, path], {
-          env: { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color', PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin' },
-          timeoutMs: 8000,
-        })
+    // Glow 3.0.0 prints nothing for a file path when its stdin is an open pipe (Windows 2026-10-17, Mac 2026-10-29),
+    // so it always gets the text on stdin
+    const win = await isWindows($)
+    const r = await $.process.run([bin, '-s', 'dark', '-w', w, '-'], {
+      env: win
+        ? { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color' }
+        : { CLICOLOR_FORCE: '1', COLORTERM: 'truecolor', TERM: 'xterm-256color', PATH: '/usr/bin:/bin:/usr/local/bin:/opt/homebrew/bin' },
+      stdin: await $.fs.read(path),
+      timeoutMs: 8000,
+    })
     if (r.exitCode !== 0) return null
-    const out = String(r.stdout ?? '').replace(/\r/g, '')
+    // Glow 3 wraps web links in OSC 8 hyperlink codes; the pane refuses any escape left in text (found 2026-10-29)
+    const out = String(r.stdout ?? '').replace(/\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)/g, '').replace(/\r/g, '')
     // Empty output means Glow failed quietly: draw the document ourselves instead of a blank pane
     if (!out.trim()) return null
     const lines = withRowDividers(out.replace(/\n+$/, '').split('\n'))
