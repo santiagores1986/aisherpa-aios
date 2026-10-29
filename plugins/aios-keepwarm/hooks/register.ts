@@ -132,15 +132,6 @@ function guardText(s: State, now: number): string {
     (warm == null ? '' : ` (un turno con el caché caliente habría costado ${fmtUsd(warm)})`) + '.')
 }
 
-export type ResumeFields = {
-  source: string
-  model?: string
-  context_tokens?: number
-  seconds_since_last_response?: number
-  prompt_cache_likely_expired?: boolean
-  estimated_cache_write_usd?: number
-}
-
 /** /clear starts a new conversation in the same process; nothing priced before it still exists. */
 export function resetForClear(s: State) {
   s.ctx = 0
@@ -150,19 +141,6 @@ export function resetForClear(s: State) {
   s.coldWritePending = false
   s.misses = []
   disarm(s)
-}
-
-/** Applies a resumed session's fields to the state; returns the line to log, if any. */
-export function seedFromResume(s: State, e: ResumeFields, now: number): string | null {
-  if (e.source !== 'resume' && e.source !== 'fork') return null
-  if (typeof e.context_tokens === 'number' && e.context_tokens > 0) s.ctx = e.context_tokens
-  if (typeof e.seconds_since_last_response === 'number') s.lastRequestAt = now - e.seconds_since_last_response * 1000
-  if (typeof e.model === 'string') s.lastModel = e.model
-  s.compacted = false
-  if (e.prompt_cache_likely_expired !== true || s.ctx < BIG_TOKENS) return null
-  const usd = typeof e.estimated_cache_write_usd === 'number' ? fmtUsd(e.estimated_cache_write_usd) : fmtUsd(coldUsd(s))
-  return t(`resuming cold. The first message re-writes ${s.ctx.toLocaleString('en-US')} tokens, about ${usd}. /clear and paste a summary if you only need the conclusions.`,
-    `retomas con el caché frío. El primer mensaje reescribe ${s.ctx.toLocaleString('en-US')} tokens, unos ${usd}. Usa /clear y pega un resumen si solo necesitas las conclusiones.`)
 }
 
 function statusText(s: State, now: number): string | undefined {
@@ -485,10 +463,10 @@ export const register: Register = on => {
     return r
   })
 
-  // /clear as every tier sees it. On a client Mac the installer's managed settings seat Claude Code's
-  // cc-plugin-sec-default, which owns classic.* events, so the classic clear branch below never runs there:
-  // without this the old chat's size and clock stayed and the fresh chat's first message was stopped as a
-  // cold write (audit 2026-10-29). Running both is harmless: the reset is the same.
+  // /clear as every tier sees it. AIOS hooks no classic.* event: on a client Mac the installer's managed
+  // settings seat Claude Code's cc-plugin-sec-default, which owns them, so they never reached this mod and
+  // only printed a grey "hook skipped" line (audit 2026-10-29). Upstream's resume seeding went with it
+  // (Santiago, 2026-10-29): a resumed chat is priced from its first turn instead.
   on('session.end', async ($, e, next) => {
     const r = await next(e)
     if (e.reason !== 'clear') return r
@@ -497,26 +475,6 @@ export const register: Register = on => {
     resetForClear(s)
     s.sidStale = true
     updateStatus($, s, await $.clock.now())
-    return r
-  })
-
-  // Resume fields seed the guard before any turn of the resumed session has run.
-  on('classic.SessionStart', async ($, e, next) => {
-    const r = await next(e)
-    if (e.source === 'clear') {
-      await stop($, s, null)
-      s.stopped = null
-      resetForClear(s)
-      s.sid = await $.session.id()
-      updateStatus($, s, await $.clock.now())
-      return r
-    }
-    const line = seedFromResume(s, e, await $.clock.now())
-    // The resume payload may omit the model; without it the guard cannot price the cold write.
-    if (!s.lastModel) s.lastModel = await $.session.model()
-    if (line) $.ui.log(line)
-    // The seeded clock decides whether a restored or always window pings before the first turn: never when it is cold.
-    await arm($, s)
     return r
   })
 

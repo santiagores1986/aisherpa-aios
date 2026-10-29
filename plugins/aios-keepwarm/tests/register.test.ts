@@ -2,7 +2,7 @@ import { describe, expect, mock, test, tier } from 'claude-code/testing'
 import type { CommandRunInput, ConfigSetInput, ModelForkResult, On, PromptSubmitInput, RenderPropsOf, SessionStartInput, TurnCompleteInput, TurnUsage } from 'claude-code'
 
 import { statusIcons } from '../hooks/status-icons'
-import { fmtDuration, freshState, parseDuration, resetForClear, seedFromResume } from '../hooks/register'
+import { fmtDuration, freshState, parseDuration, resetForClear } from '../hooks/register'
 
 tier('user')
 
@@ -65,7 +65,6 @@ function world(on: On, forkAnswers: ForkAnswer[], opts: { store?: Map<string, un
   on('turn.complete', ($, e) => ({ text: e.answer }))
   on('prompt.submit', ($, e) => { entered.push(e.text); return { text: e.text } })
   on('session.compact', ($, e) => ({ messages: e.messages }))
-  on('classic.SessionStart', () => ({}))
   on('ui.log', ($, e) => { logs.push(e.text); return { value: undefined } })
   on('ui.status', ($, e) => { status.push(e.text); return { value: undefined } })
   on('ui.render', ($, e) => opts.bandTree ? opts.bandTree($, e) : $.ui.resolve(e).Text({ children: [opts.bandText ?? ''] }))
@@ -198,13 +197,13 @@ describe('cache indicator', () => {
     })
   }
 
-  test('cold resume, compaction and clear reset the row without a ping', async ($, on) => {
+  test('compaction and clear reset the row without a ping', async ($, on) => {
     const clock = mock.clock(on, { now: 10 * HOUR })
     const w = world(on, [], { store: new Map([['deadline:S1', 13 * HOUR]]) })
+    on('session.end', ($, e) => ({ sessionId: e.sessionId }) as any)
     await $.session.start({ ...session, surface: 'terminal', isInteractive: true })
     const ui = await $.ui.mount({ plugin: 'aios-keepwarm', surface: 'terminal', component: 'AbovePrompt', props: bandProps })
-    await $.classic.SessionStart({ source: 'resume', seconds_since_last_response: 7200, context_tokens: 200000, prompt_cache_likely_expired: true })
-    expect((await ui.find({ type: 'Text', text: /^(warm|cold|unknown|stopped)$/ }))?.props.color).toBe('#d97757')
+    await $.turn.complete(turn())
     await $.session.compact({ trigger: 'manual', messages: [{ role: 'user', text: 'summary', toolUses: [] }] })
     expect((await ui.find({ type: 'Text', text: /^(warm|cold|unknown|stopped)$/ }))?.props.color).toBe(undefined)
     expect((await ui.find({ type: 'Text', text: 'keepwarm ·' }))?.text).toMatch(/unknown.*after compaction/)
@@ -212,7 +211,7 @@ describe('cache indicator', () => {
     expect(w.forks.length).toBe(0)
     await $.turn.complete(turn())
     expect((await ui.find({ type: 'Text', text: /^(warm|cold|unknown|stopped)$/ }))?.props.color).toBe('success')
-    await $.classic.SessionStart({ source: 'clear' })
+    await $.session.end({ reason: 'clear', sessionId: 'S1', resume: { sessionId: 'S1' } } as any)
     expect(await ui.find({ text: 'keepwarm ·' })).toBe(undefined)
     await clock.advance(HOUR)
     expect(w.forks.length).toBe(0)
@@ -245,20 +244,6 @@ describe('cache indicator', () => {
     expect((await survey.find({ text: 'survey' }))?.text).toBe('survey')
     await clock.advance(10 * MIN)
     expect(await ui.find({ text: 'keepwarm ·' })).toBe(undefined)
-    expect(w.forks.length).toBe(0)
-  })
-
-  test('a warm resume restores green and ignores subagent cache activity', async ($, on) => {
-    const clock = mock.clock(on, { now: 10 * HOUR })
-    const w = world(on, [], { store: new Map<string, unknown>([['deadline:S1', 13 * HOUR], ['every:S1', 90 * MIN]]) })
-    await $.session.start({ ...session, surface: 'terminal', isInteractive: true })
-    await $.classic.SessionStart({ source: 'resume', seconds_since_last_response: 30 * 60, context_tokens: 200000 })
-    const ui = await $.ui.mount({ plugin: 'aios-keepwarm', surface: 'terminal', component: 'AbovePrompt', props: bandProps })
-    expect((await ui.find({ type: 'Text', text: /^(warm|cold|unknown|stopped)$/ }))?.props.color).toBe('success')
-    await $.turn.complete(turn({ agentId: 'worker' }))
-    await $.session.compact({ trigger: 'manual', agentId: 'worker', messages: [{ role: 'user', text: 'summary', toolUses: [] }] })
-    await clock.advance(30 * MIN)
-    expect((await ui.find({ type: 'Text', text: /^(warm|cold|unknown|stopped)$/ }))?.props.color).toBe('#d97757')
     expect(w.forks.length).toBe(0)
   })
 
@@ -442,16 +427,6 @@ describe('guard', () => {
     expect(card.text).toMatch(/reset by compaction/)
   })
 
-  test('a cold resume seeds the guard before any turn and returns the estimate line', async () => {
-    const s = freshState()
-    const now = START
-    const line = seedFromResume(s, { source: 'resume', model: 'claude-fable-5-1', context_tokens: 396113, seconds_since_last_response: 3 * 3600, prompt_cache_likely_expired: true, estimated_cache_write_usd: 7.92 }, now)
-    expect(line).toMatch(/resuming cold\. The first message re-writes 396,113 tokens, about \$7\.92/)
-    expect(s.ctx).toBe(396113)
-    expect(s.lastRequestAt).toBe(now - 3 * HOUR)
-    expect(seedFromResume(freshState(), { source: 'startup' }, now)).toBe(null)
-    expect(seedFromResume(freshState(), { source: 'resume', context_tokens: 20000, prompt_cache_likely_expired: true }, now)).toBe(null)
-  })
 })
 
 describe('keepwarm', () => {
@@ -707,7 +682,7 @@ describe('keepwarm', () => {
     await $.turn.complete(turn())
     await $.command.run(run('keepwarm', 'off'))
     await clock.advance(15 * 24 * HOUR)
-    // The test kit cannot raise classic.SessionStart, so the cold state comes from the turn above and a second start arms the switch over it.
+    // The cold state comes from the turn above and a second start arms the switch over it.
     store.set('always', true)
     await $.session.start(session)
     expect(w.status.at(-1)).toBe('keepwarm 6h00m left · cold now, first ping 50m after the next turn')
